@@ -3,7 +3,7 @@
   "module": "index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"bun run --watch ./index.tsx\" \"imv ./images/current.png\""
+    "dev": "concurrently \"bun run --watch ./index.tsx\" \"imv -f -d ./images/current.*\""
   },
   "devDependencies": {
     "@types/bun": "latest",

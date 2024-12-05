@@ -1,12 +1,22 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
 import { anglesArray, radialPointString, PHI } from "geometry/geometry";
+import type { ReactElement, ReactSVGElement } from "react";
 
 const phi = PHI - 1;
+
+type GroupProps = {
+  filter: string;
+  children: ReactElement;
+};
+
+const Group = ({ children, filter }: GroupProps) => {
+  return <g filter={filter}>{children}</g>;
+};
 const Foo = () => {
   const width = 1920;
   const height = 1080;
-  const hue = 300;
+  const hue = 100;
   const saturation = "100%";
   const radii = [(height / 2) * phi, (height / 2) * phi ** 3];
   const angles = anglesArray(10);
@@ -59,35 +69,39 @@ const Foo = () => {
         }Z`}
         fill={`hsla(${hue - 60}, 50%, 25%, 1)`}
       />
-      <g filter='url(#highlight)'>
-        <circle
-          r={(height / 2) * 0.618}
-          stroke={`hsl(${hue}, ${saturation}, 50%)`}
-          strokeWidth={15}
-          fill='none'
-        />
-        <polygon
-          points={angles
-            .map((a, i) =>
-              radialPointString(
-                a,
-                [(height / 2) * phi ** 2, (height / 2) * phi ** 4][i % 2],
-              ),
-            )
-            .join(" ")}
-          fill='none'
-          strokeWidth={15}
-          strokeLinejoin='round'
-          stroke={`hsl(${hue}, ${saturation}, 50%)`}
-        />
-        <polygon
-          points={starPoints}
-          fill='none'
-          strokeWidth={15}
-          strokeLinejoin='round'
-          stroke={`hsl(${hue}, ${saturation}, 50%)`}
-        />
-      </g>
+      {/* <g filter='url(#highlight)'> */}
+      <Group filter='url(#highlight)'>
+        <>
+          <circle
+            r={(height / 2) * 0.618}
+            stroke={`hsl(${hue}, ${saturation}, 50%)`}
+            strokeWidth={15}
+            fill='none'
+          />
+          <polygon
+            points={angles
+              .map((a, i) =>
+                radialPointString(
+                  a,
+                  [(height / 2) * phi ** 2, (height / 2) * phi ** 4][i % 2],
+                ),
+              )
+              .join(" ")}
+            fill='none'
+            strokeWidth={15}
+            strokeLinejoin='round'
+            stroke={`hsl(${hue}, ${saturation}, 50%)`}
+          />
+          <polygon
+            points={starPoints}
+            fill='none'
+            strokeWidth={15}
+            strokeLinejoin='round'
+            stroke={`hsl(${hue}, ${saturation}, 50%)`}
+          />
+        </>
+      </Group>
+      {/* </g> */}
     </svg>
   );
 };
