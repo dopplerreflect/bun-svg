@@ -1,0 +1,21 @@
+{
+  "name": "bun-svg",
+  "module": "index.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"bun run --watch ./index.tsx\" \"imv ./images/current.png\""
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.3.13",
+    "@types/react-dom": "^18.3.1",
+    "concurrently": "^9.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
