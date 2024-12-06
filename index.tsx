@@ -1,7 +1,11 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
-import { anglesArray, radialPointString, PHI } from "geometry";
+import { PHI, anglesArray, radialPointString } from "geometry";
 import type { ReactElement } from "react";
+import chroma from "chroma-js";
+
+const oklch = (l: number, c: number, h: number): string =>
+  chroma.oklch(l, c, h).hex();
 
 const phi = PHI - 1;
 
@@ -24,7 +28,7 @@ const Group = ({ children, filter, strokeWidth }: GroupProps) => {
 const Foo = () => {
   const width = 1920;
   const height = 1080;
-  const hue = 300;
+  const hue = 270;
   const saturation = "100%";
   const radius = (height / 2) * phi;
   const angles = anglesArray(5);
@@ -84,14 +88,14 @@ const Foo = () => {
         <>
           <circle
             r={(height / 2) * 0.618}
-            stroke={`hsl(${hue}, ${saturation}, 50%)`}
+            stroke={oklch(0.5, 0.37, 300)}
             fill='none'
           />
           <polygon
             points={starPoints}
             fill='none'
             strokeLinejoin='round'
-            stroke={`hsl(${hue}, ${saturation}, 50%)`}
+            stroke={oklch(0.5, 0.37, 300)}
           />
         </>
       </Group>
@@ -102,10 +106,9 @@ const Foo = () => {
 const IMAGES_DIR = "./images";
 
 const svg = renderToStaticMarkup(<Foo />);
-console.log(svg);
 
 await Bun.write(`${IMAGES_DIR}/current.svg`, svg);
 const { stdout, stderr, exitCode } =
-  await $`magick -verbose -background none ${IMAGES_DIR}/current.svg ${IMAGES_DIR}/current.png`;
+  await $`magick -background none ${IMAGES_DIR}/current.svg ${IMAGES_DIR}/current.png`;
 
-[stdout.toString(), stderr.toString(), exitCode].forEach(s => console.log(s));
+if (exitCode) console.log(stderr.toString());
