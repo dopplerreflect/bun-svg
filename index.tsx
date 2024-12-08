@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
-import SVG from "./components/foo";
+import SVG from "$drawings/pentagram";
 
 const filePath = `./images/${SVG.name}`;
 
@@ -21,3 +21,5 @@ async function setDesktopBackground() {
 
 await renderToPNG();
 await setDesktopBackground();
+
+console.info(`${new Date()}: Rendered: ${SVG.name}`);

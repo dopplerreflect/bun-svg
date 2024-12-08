@@ -1,4 +1,5 @@
 import { anglesArray, radialPointString, PHI } from "geometry";
+import LinearGradient from "$components/LinearGradient";
 
 import chroma from "chroma-js";
 
@@ -17,8 +18,12 @@ type Props = {
   height?: number;
   strokeSize?: number;
 };
-const Foo = ({ width = 1920, height = 1080, strokeSize = 1 }: Props) => {
-  const hue = 330;
+export default function Pentagram({
+  width = 1920,
+  height = 1080,
+  strokeSize = 1,
+}: Props) {
+  const hue = 300;
   const radius = (height / 2) * phi;
   const angles = anglesArray(5);
   const Star = () => (
@@ -36,19 +41,19 @@ const Foo = ({ width = 1920, height = 1080, strokeSize = 1 }: Props) => {
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
     >
       <defs>
-        <linearGradient
+        <LinearGradient
           id='backgroundGradient'
           gradientTransform='rotate(90)'
-        >
-          <stop
-            stopColor={oklch(0.5, 0.37, hue)}
-            offset='0%'
-          />
-          <stop
-            stopColor={oklch(0.0, 0.37, hue - 60)}
-            offset='100%'
-          />
-        </linearGradient>
+          stops={[
+            { offset: 0, stopColor: oklch(0.0, 0.0, hue) },
+            { offset: 48, stopColor: oklch(0.25, 0.37, hue) },
+            { offset: 49, stopColor: oklch(0.5, 0.37, hue) },
+            { offset: 50, stopColor: oklch(0.95, 0.37, hue) },
+            { offset: 51, stopColor: oklch(0.5, 0.37, hue) },
+            { offset: 52, stopColor: oklch(0.25, 0.37, hue) },
+            { offset: 100, stopColor: oklch(0.0, 0.0, hue) },
+          ]}
+        />
         <filter id='highlight'>
           <feGaussianBlur
             in='SourceAlpha'
@@ -104,6 +109,4 @@ const Foo = ({ width = 1920, height = 1080, strokeSize = 1 }: Props) => {
       </Group>
     </svg>
   );
-};
-
-export default Foo;
+}
