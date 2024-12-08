@@ -3,14 +3,13 @@
   "module": "index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"bun run --watch ./index.tsx\" \"imv -f -d ./images/current.svg\""
+    "dev": "bun run --watch ./index.tsx"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/chroma-js": "^2.4.4",
     "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
-    "concurrently": "^9.1.0",
     "geometry": "link:geometry"
   },
   "peerDependencies": {
