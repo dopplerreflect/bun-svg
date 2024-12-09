@@ -1,6 +1,7 @@
 import { Background } from "$components/all";
 import { oklch } from "$lib/color";
 import { anglesArray, PHI, radialPoint } from "geometry";
+import DecagonCrystal from "./decagon-crystal";
 
 type Props = {
   width?: number;
@@ -11,36 +12,6 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
   const angles = anglesArray(10);
   const radii = [...Array(5).keys()].map(i => (height / 2) * 0.95 * phi ** i);
 
-  const lineAngleMatrixSet: Set<string> = new Set();
-
-  angles.forEach((_, a) => {
-    [...Array(7).keys()].forEach(b => {
-      lineAngleMatrixSet.add(
-        JSON.stringify([a, (a + b + 2) % angles.length].sort()),
-      );
-    });
-  });
-  const lineAngleMatrix = [...lineAngleMatrixSet].map(e => JSON.parse(e));
-
-  const Lines = () =>
-    radii.map(radius =>
-      lineAngleMatrix.map((e, i) => {
-        const [start, end] = [
-          radialPoint(angles[e[0]], radius),
-          radialPoint(angles[e[1]], radius),
-        ];
-        return (
-          <line
-            key={i}
-            x1={start[0]}
-            y1={start[1]}
-            x2={end[0]}
-            y2={end[1]}
-            stroke={oklch(0.95, 0.5, 270)}
-          />
-        );
-      }),
-    );
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -103,7 +74,7 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
           />
         ))}
         <g filter='url(#cheap-glow)'>
-          <Lines />
+          <DecagonCrystal {...{ angles, radii }} />
         </g>
       </g>
     </svg>
