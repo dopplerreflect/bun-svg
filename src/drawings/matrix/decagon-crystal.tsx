@@ -1,12 +1,12 @@
 import { radialPoint } from "@dopplerreflect/geometry";
-import { oklch } from "$lib/color";
 
 type Props = {
   angles: number[];
   radii: number[];
+  stroke: string;
 };
 export default function DecagonCrystal(props: Props) {
-  const { angles, radii } = props;
+  const { angles, radii, stroke } = props;
   const lineAngleMatrixSet: Set<string> = new Set();
 
   angles.forEach((_, a) => {
@@ -31,7 +31,7 @@ export default function DecagonCrystal(props: Props) {
           y1={start[1]}
           x2={end[0]}
           y2={end[1]}
-          stroke={oklch(0.95, 0.5, 270)}
+          {...{ stroke }}
         />
       );
     }),
