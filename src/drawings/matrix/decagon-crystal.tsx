@@ -27,10 +27,10 @@ export default function DecagonCrystal(props: Props) {
       return (
         <line
           key={i}
-          x1={start[0]}
-          y1={start[1]}
-          x2={end[0]}
-          y2={end[1]}
+          x1={start.x}
+          y1={start.y}
+          x2={end.x}
+          y2={end.y}
           {...{ stroke }}
         />
       );

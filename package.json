@@ -16,7 +16,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@dopplerreflect/geometry": "^0.0.1-6",
+    "@dopplerreflect/geometry": "link:geometry",
     "chroma-js": "^3.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

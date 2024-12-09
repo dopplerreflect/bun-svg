@@ -10,7 +10,7 @@ export default function RepeatingRadialGradient(props: Props) {
       {radii.map((radius, i) => {
         return (
           <radialGradient
-            id={`gradient${i}`}
+            id={`rrg-gradient${i}`}
             key={i}
           >
             <stop
