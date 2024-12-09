@@ -4,3 +4,4 @@ images/*.png
 images/*.svg
 
 .bunfig.toml
+.env
