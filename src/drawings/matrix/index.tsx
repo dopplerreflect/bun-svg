@@ -1,8 +1,9 @@
 import { Background } from "$components/all";
 import { oklch } from "$lib/color";
-import { anglesArray, PHI, radialPoint } from "geometry";
+import { anglesArray, PHI } from "geometry";
 import DecagonCrystal from "./decagon-crystal";
 import RepeatingRadialGradient from "./repeating-radial-gradient";
+import Grid from "$components/grid";
 
 type Props = {
   width?: number;
@@ -37,6 +38,11 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
         fill={oklch(0.0, 0.15, 300)}
       />
       <g filter='url(#cheap-glow)'>
+        <Grid
+          {...{ width, height }}
+          scaleFactor={radii[1]}
+          stroke={oklch(0.125, 0.5, 300)}
+        />
         {radii.map((r, i) => (
           <circle
             key={r}
@@ -54,9 +60,7 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
             filter='url(#cheap-glow)'
           />
         ))}
-        <g filter='url(#cheap-glow)'>
-          <DecagonCrystal {...{ angles, radii }} />
-        </g>
+        <DecagonCrystal {...{ angles, radii }} />
       </g>
     </svg>
   );
