@@ -48,11 +48,11 @@ export default function Pentagram({
           ]}
         />
         <HighlightFilter
-          shadowBlur={5 * strokeSize}
+          shadowBlur={10 * strokeSize}
           shadowOffset={15 * strokeSize}
-          highlightErode={3 * strokeSize}
+          highlightErode={5 * strokeSize}
           highlightBlur={3 * strokeSize}
-          highlightOffset={-6 * strokeSize}
+          highlightOffset={-3 * strokeSize}
         />
       </defs>
       <Background
