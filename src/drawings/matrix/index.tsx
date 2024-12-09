@@ -60,7 +60,10 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
             filter='url(#cheap-glow)'
           />
         ))}
-        <DecagonCrystal {...{ angles, radii }} />
+        <DecagonCrystal
+          {...{ angles, radii }}
+          stroke={oklch(0.99, 0.5, 270)}
+        />
       </g>
     </svg>
   );
