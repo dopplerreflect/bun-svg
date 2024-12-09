@@ -1,6 +1,6 @@
 import { Background } from "$components/all";
 import { oklch } from "$lib/color";
-import { anglesArray, PHI } from "geometry";
+import { anglesArray, PHI } from "@dopplerreflect/geometry";
 import DecagonCrystal from "./decagon-crystal";
 import RepeatingRadialGradient from "./repeating-radial-gradient";
 import Grid from "$components/grid";

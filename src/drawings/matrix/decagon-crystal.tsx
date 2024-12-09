@@ -1,4 +1,4 @@
-import { radialPoint } from "geometry";
+import { radialPoint } from "@dopplerreflect/geometry";
 import { oklch } from "$lib/color";
 
 type Props = {

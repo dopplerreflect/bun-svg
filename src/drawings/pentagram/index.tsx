@@ -1,4 +1,4 @@
-import { anglesArray, radialPointString, PHI } from "geometry";
+import { anglesArray, radialPointString, PHI } from "@dopplerreflect/geometry";
 import { Background, LinearGradient } from "$components/all";
 import HighlightFilter from "./highlightFilter";
 import { oklch } from "$lib/color";

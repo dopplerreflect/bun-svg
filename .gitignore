@@ -3,3 +3,4 @@ node_modules/
 images/*.png
 images/*.svg
 
+.bunfig.toml
