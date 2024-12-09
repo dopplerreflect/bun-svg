@@ -13,6 +13,7 @@
       buildInputs = [
         pkgs.bun
         pkgs.imagemagick
+        pkgs.swww
       ];
     };
   };

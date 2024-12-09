@@ -58,6 +58,10 @@ async function setDesktopBackground() {
 }
 
 await renderToPNG();
-if (options["to-desktop"]) await setDesktopBackground();
+if (options["to-desktop"]) {
+  try {
+    await setDesktopBackground();
+  } catch (e) {}
+}
 
 console.info(`${new Date()}: Rendered: ${SVG.name}`);

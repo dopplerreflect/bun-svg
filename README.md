@@ -13,6 +13,7 @@ Install Bun and ImageMagick.
 
 - [Bun](https://bun.sh/) Javascript runtime and bundler.
 - [ImageMagick](https://imagemagick.org/script/index.php) to convert SVG to PNG.
+- [swww](https://github.com/LGFae/swww) to set desktop background (optional with `--to-desktop` flag)
 
 If you're a [Nix or Nixos](https://nixos.org/) user, you can run `nix develop`
 in the root directory, which will install Bun and ImageMagick into your shell

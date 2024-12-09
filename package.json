@@ -10,7 +10,6 @@
     "@types/chroma-js": "^2.4.4",
     "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
-    "geometry": "link:geometry",
     "prettier": "^3.4.2"
   },
   "peerDependencies": {
