@@ -1,7 +1,44 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
+import { parseArgs } from "util";
+import { readdir } from "node:fs/promises";
 import { format } from "prettier";
-import SVG from "$drawings/pentagram";
+
+const { values: options, positionals } = parseArgs({
+  args: Bun.argv,
+  options: {
+    drawing: {
+      type: "string",
+      short: "d",
+      default: "template",
+    },
+    "to-desktop": {
+      type: "boolean",
+      default: false,
+    },
+    output: {
+      type: "string",
+      short: "o",
+      default: "eDP-1",
+    },
+  },
+  allowPositionals: true,
+});
+
+const drawings = await readdir("./src/drawings");
+
+if (!drawings.includes(options.drawing!)) {
+  console.error(`The drawing "${options.drawing}" does not exist.`);
+  console.info({ drawings });
+  process.exit();
+}
+
+const modulePath = `./src/drawings/${options.drawing}`;
+
+console.info(`Loading "${modulePath}"`);
+
+const module = await import(modulePath);
+const SVG = module.default;
 
 const filePath = `./images/${SVG.name}`;
 
@@ -16,11 +53,11 @@ async function renderToPNG() {
 }
 async function setDesktopBackground() {
   const { stdout, stderr, exitCode } =
-    await $`swww img -o eDP-1 -t top --transition-duration 1 ${filePath}.png`;
+    await $`swww img -o ${options.output} -t top --transition-duration 1 ${filePath}.png`;
   if (exitCode) console.log(stderr.toString());
 }
 
 await renderToPNG();
-await setDesktopBackground();
+if (options["to-desktop"]) await setDesktopBackground();
 
 console.info(`${new Date()}: Rendered: ${SVG.name}`);
