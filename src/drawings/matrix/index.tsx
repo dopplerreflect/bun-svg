@@ -2,6 +2,7 @@ import { Background } from "$components/all";
 import { oklch } from "$lib/color";
 import { anglesArray, PHI, radialPoint } from "geometry";
 import DecagonCrystal from "./decagon-crystal";
+import RepeatingRadialGradient from "./repeating-radial-gradient";
 
 type Props = {
   width?: number;
@@ -29,27 +30,7 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
-        {radii.map((radius, i) => {
-          return (
-            <radialGradient
-              id={`gradient${i}`}
-              key={i}
-            >
-              <stop
-                offset='0%'
-                stopColor={oklch(1, 0.15, 90)}
-              />
-              <stop
-                offset='61.8%'
-                stopColor={oklch(0, 0.15, 270)}
-              />
-              <stop
-                offset='100%'
-                stopColor={oklch(0.0, 0.5, 270)}
-              />
-            </radialGradient>
-          );
-        })}
+        <RepeatingRadialGradient {...{ radii }} />
       </defs>
       <Background
         {...{ width, height }}
