@@ -1,4 +1,5 @@
 type Props = {
+  id: string;
   shadowBlur: number;
   shadowOffset: number;
   highlightErode: number;
@@ -8,6 +9,7 @@ type Props = {
 
 export default function HighlightFilter(props: Props) {
   const {
+    id,
     shadowBlur,
     shadowOffset,
     highlightErode,
@@ -15,7 +17,7 @@ export default function HighlightFilter(props: Props) {
     highlightOffset,
   } = props;
   return (
-    <filter id='highlight'>
+    <filter {...{ id }}>
       <feGaussianBlur
         in='SourceAlpha'
         stdDeviation={shadowBlur}

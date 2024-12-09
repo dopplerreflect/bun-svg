@@ -1,6 +1,5 @@
 import { anglesArray, radialPointString, PHI } from "geometry";
-import LinearGradient from "$components/LinearGradient";
-import Background from "$components/Background";
+import { Background, LinearGradient } from "$components/all";
 import HighlightFilter from "./highlightFilter";
 import { oklch } from "$lib/color";
 
@@ -48,6 +47,7 @@ export default function Pentagram({
           ]}
         />
         <HighlightFilter
+          id='highlight'
           shadowBlur={10 * strokeSize}
           shadowOffset={15 * strokeSize}
           highlightErode={5 * strokeSize}
