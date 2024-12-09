@@ -1,17 +1,10 @@
 import { anglesArray, radialPointString, PHI } from "geometry";
 import LinearGradient from "$components/LinearGradient";
-
-import chroma from "chroma-js";
-
-const oklch = (l: number, c: number, h: number): string =>
-  chroma.oklch(l, c, h).hex();
+import Background from "$components/Background";
+import HighlightFilter from "./highlightFilter";
+import { oklch } from "$lib/color";
 
 const phi = PHI - 1;
-
-const Group = (props: React.SVGProps<SVGGElement>) => {
-  const { children, ...rest } = props;
-  return <g {...rest}>{children}</g>;
-};
 
 type Props = {
   width?: number;
@@ -26,7 +19,7 @@ export default function Pentagram({
   const hue = 210;
   const radius = (height / 2) * phi;
   const angles = anglesArray(5);
-  const Star = () => (
+  const Star = ({ radius }: { radius: number }) => (
     <polygon
       points={angles
         .map((_, i) =>
@@ -54,59 +47,28 @@ export default function Pentagram({
             { offset: 100, stopColor: oklch(0.0, 0.0, hue) },
           ]}
         />
-        <filter id='highlight'>
-          <feGaussianBlur
-            in='SourceAlpha'
-            stdDeviation={5 * strokeSize}
-          />
-          <feOffset
-            dy={5 * strokeSize}
-            result='shadow'
-          />
-          <feMorphology
-            in='SourceGraphic'
-            operator='erode'
-            radius={4 * strokeSize}
-          />
-          <feColorMatrix
-            values='
-            1 0 0 0 0.5
-            0 1 0 0 0.5
-            0 0 1 0 0.5
-            0 0 0 1 0
-          '
-          />
-          <feGaussianBlur stdDeviation={2 * strokeSize} />
-          <feOffset
-            dy={-5 * strokeSize}
-            result='highlight'
-          />
-          <feMerge>
-            <feMergeNode in='shadow' />
-            <feMergeNode in='SourceGraphic' />
-            <feMergeNode in='highlight' />
-          </feMerge>
-        </filter>
+        <HighlightFilter
+          shadowBlur={5 * strokeSize}
+          shadowOffset={15 * strokeSize}
+          highlightErode={3 * strokeSize}
+          highlightBlur={3 * strokeSize}
+          highlightOffset={-6 * strokeSize}
+        />
       </defs>
-      <path
-        d={`M${-width / 2},${-height / 2}H${width / 2}V${height / 2}H${
-          -width / 2
-        }Z`}
-        // fill={oklch(0.15, 0.37, hue)}
+      <Background
+        {...{ width, height }}
         fill='url(#backgroundGradient)'
       />
-      <Group
+      <g
         filter='url(#highlight)'
         strokeWidth={20 * strokeSize}
         stroke={oklch(0.5, 0.37, hue)}
         strokeLinejoin='round'
         fill='none'
       >
-        <>
-          <circle r={radius} />
-          <Star />
-        </>
-      </Group>
+        <circle r={radius} />
+        <Star radius={(height / 2) * phi} />
+      </g>
     </svg>
   );
 }
