@@ -4,7 +4,7 @@ import { parseArgs } from "util";
 import { readdir } from "node:fs/promises";
 import { format } from "prettier";
 
-const { values: options, positionals } = parseArgs({
+const { values: options } = parseArgs({
   args: Bun.argv,
   options: {
     drawing: {

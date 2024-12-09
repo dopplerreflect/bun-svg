@@ -5,6 +5,8 @@ Create SVG and PNG images using TypeScript and JSX.
 I created this as a way to make desktop backgrounds, but I'll be extending it to create
 images to concatenate into videos and plymouth boot screen animations.
 
+![Screenshot](2024-12-09-014738_hyprshot.png)
+
 ## Requirements
 
 Install Bun and ImageMagick.
