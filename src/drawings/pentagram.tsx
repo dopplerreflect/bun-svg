@@ -23,7 +23,7 @@ export default function Pentagram({
   height = 1080,
   strokeSize = 1,
 }: Props) {
-  const hue = 300;
+  const hue = 210;
   const radius = (height / 2) * phi;
   const angles = anglesArray(5);
   const Star = () => (

@@ -1,10 +1,11 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
+import { format } from "prettier";
 import SVG from "$drawings/pentagram";
 
 const filePath = `./images/${SVG.name}`;
 
-const svg = renderToStaticMarkup(<SVG />);
+const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
 
 await Bun.write(`${filePath}.svg`, svg);
 
