@@ -3,13 +3,16 @@ type Props = {
   height: number;
   stroke?: string;
   scaleFactor: number;
+  filter?: string;
 };
 
 export default function Grid(props: Props) {
-  const { width, height, stroke, scaleFactor } = props;
+  const { width, height, stroke, scaleFactor, filter } = props;
   const lines: JSX.Element[] = [];
+
+  // TODO lerp
   for (let x = 0; x < width / 2; x += scaleFactor / 10) {
-    [x, -x].forEach(x => {
+    [x, -x].forEach((x, i) => {
       lines.push(
         <line
           key={x}
@@ -18,7 +21,7 @@ export default function Grid(props: Props) {
           x2={x}
           y2={width / 2}
           stroke={stroke}
-          strokeWidth={x % scaleFactor === 0 ? 3 : 1}
+          strokeWidth={x % scaleFactor === 0 ? 2 : 1}
         />,
       );
     });
@@ -38,5 +41,5 @@ export default function Grid(props: Props) {
       );
     });
   }
-  return <g>{lines}</g>;
+  return <g {...{ filter }}>{lines}</g>;
 }

@@ -13,30 +13,25 @@ export default function Ripples(props: Props) {
     <>
       <defs>
         <radialGradient
-          id='gradient1'
+          id={"ripple-gradient"}
           cx='0'
           cy='0'
-          r={(height / 2) * 0.95 * (PHI - 1) ** 5}
+          r={(height / 2) * 0.95 * (PHI - 1)}
           spreadMethod='repeat'
           gradientUnits='userSpaceOnUse'
         >
-          <stop
-            offset={0}
-            stopColor={oklch(0, 0.37, 270, 0.61)}
-          />
-          <stop
-            offset={0.618}
-            stopColor={oklch(0.37, 0.37, 270, 0.61)}
-          />
-          <stop
-            offset={0.8}
-            stopColor={oklch(0.61, 0.37, 270, 0.61)}
-          />
+          {[1, 2, 3, 4].map(i => (
+            <stop
+              key={i}
+              offset={1 * (PHI - 1) ** i}
+              stopColor={oklch(1 * (PHI - 1) ** i, 0.37, 210 + 60 * i, 0.5)}
+            />
+          ))}
         </radialGradient>
       </defs>
       <Background
         {...{ width, height }}
-        fill='url(#gradient1)'
+        fill={`url(#ripple-gradient)`}
       />
     </>
   );
