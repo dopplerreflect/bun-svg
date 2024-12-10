@@ -16,10 +16,24 @@ export default function GoldenCircles(props: Props) {
   return (
     <>
       <defs>
+        <radialGradient id='asotueha'>
+          <stop
+            offset='0.61803'
+            stopColor='black'
+          />
+          <stop
+            offset='1'
+            stopColor='white'
+          />
+        </radialGradient>
         <mask id='golden-circle-mask'>
           <circle
             r={radii[0]}
             fill='white'
+          />
+          <circle
+            r={radii[3]}
+            fill='url(#asotueha)'
           />
         </mask>
       </defs>

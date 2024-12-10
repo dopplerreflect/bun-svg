@@ -45,15 +45,15 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
         stroke={oklch(0.125, 0.5, 300)}
       />
       <Ripples {...{ width, height }} />
+      {radii.map((r, i) => (
+        <circle
+          key={r}
+          r={r}
+          stroke={oklch(0.95, 0.8, 270)}
+          fill={`url(#rrg-gradient${i})`}
+        />
+      ))}
       <g filter='url(#cheap-glow)'>
-        {radii.map((r, i) => (
-          <circle
-            key={r}
-            r={r}
-            stroke={oklch(0.95, 0.8, 270)}
-            fill={`url(#rrg-gradient${i})`}
-          />
-        ))}
         {radii.map((r, i) => (
           <circle
             key={r}

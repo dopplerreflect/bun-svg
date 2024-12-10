@@ -1,31 +1,26 @@
 import { oklch } from "$lib/color";
+import { PHI } from "@dopplerreflect/geometry";
 type Props = {
   radii: number[];
 };
 
 export default function RepeatingRadialGradient(props: Props) {
   const { radii } = props;
-  const factor = 15;
   return (
     <>
-      {radii.map((radius, i) => {
+      {radii.map((_, o) => {
         return (
           <radialGradient
-            id={`rrg-gradient${i}`}
-            key={i}
+            id={`rrg-gradient${o}`}
+            key={o}
           >
-            <stop
-              offset='0%'
-              stopColor={oklch(1, 0.15, 60 + factor * i, 0.5)}
-            />
-            <stop
-              offset='61.8%'
-              stopColor={oklch(0.5, 0.25, 300 + factor * i, 0.25)}
-            />
-            <stop
-              offset='100%'
-              stopColor={oklch(0.5, 0.5, 270 + factor * i, 0.5)}
-            />
+            {[0, 1, 2, 3].map(i => (
+              <stop
+                key={i}
+                offset={1 / PHI ** i}
+                stopColor={oklch(0 + 0.25 * o, 0.37, 30 * o, 0.1 + 0.15 * o)}
+              />
+            ))}
           </radialGradient>
         );
       })}
