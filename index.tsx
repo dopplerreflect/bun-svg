@@ -4,36 +4,34 @@ import { parseArgs } from "util";
 import { readdir } from "node:fs/promises";
 import { format } from "prettier";
 
-const { values: options } = parseArgs({
+const { values: options, positionals } = parseArgs({
   args: Bun.argv,
   options: {
-    drawing: {
-      type: "string",
-      short: "d",
-      default: "template",
-    },
-    "to-desktop": {
+    "render-to-desktop": {
+      short: "r",
       type: "boolean",
       default: false,
     },
     output: {
-      type: "string",
       short: "o",
+      type: "string",
       default: "eDP-1",
     },
   },
   allowPositionals: true,
 });
 
+const drawing = positionals[2];
+
 const drawings = await readdir("./src/drawings");
 
-if (!drawings.includes(options.drawing!)) {
-  console.error(`The drawing "${options.drawing}" does not exist.`);
+if (!drawings.includes(drawing)) {
+  console.error(`The drawing "${drawing}" does not exist.`);
   console.info({ drawings });
   process.exit();
 }
 
-const modulePath = `./src/drawings/${options.drawing}`;
+const modulePath = `./src/drawings/${drawing}`;
 
 console.info(`Loading "${modulePath}"`);
 
@@ -53,12 +51,12 @@ async function renderToPNG() {
 }
 async function setDesktopBackground() {
   const { stdout, stderr, exitCode } =
-    await $`swww img -o ${options.output} -t top --transition-duration 1 ${filePath}.png`;
+    await $`swww img -o ${options.output} -t top --no-resize --transition-duration 1 ${filePath}.png`;
   if (exitCode) console.log(stderr.toString());
 }
 
 await renderToPNG();
-if (options["to-desktop"]) {
+if (options["render-to-desktop"]) {
   try {
     await setDesktopBackground();
   } catch (e) {}
