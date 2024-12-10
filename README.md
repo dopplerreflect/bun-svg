@@ -20,16 +20,26 @@ in the root directory, which will install Bun and ImageMagick into your shell
 environment. If you have `direnv` configured, type `direnv allow` in the root
 directory to autmatically initialize the shell environment upon entry.
 
-To install package dependencies:
-
 ```bash
 bun install
 ```
 
-To run:
+To run, first copy the template component to whatever you want:
 
 ```bash
-bun run dev
+cp -r ./src/components/template ./src/components/whatever
+```
+
+```bash
+bun run dev -- -d whatever
+```
+
+All flags:
+
+```bash
+--drawing     -d  drawing component to render
+--output      -o  which display to put load the wallpaper to
+--to-desktop      boolean whether to change the wallpaper
 ```
 
 This will run the app and watch for changes. Images are written to `./images/$(componentName).{svg|png}`
