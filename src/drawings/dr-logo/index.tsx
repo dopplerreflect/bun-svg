@@ -36,12 +36,12 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
     "Z",
   ].join(" ");
   const Circles = () =>
-    radii.map((r, i) => (
+    radii.map(r => (
       <circle
         key={r}
         {...{ r }}
         stroke='white'
-        fill={oklch(1, 0, 0, 0.25)}
+        fill={oklch(1, 0, 0, 0.15)}
       />
     ));
   const Rays = () =>
@@ -56,7 +56,7 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
     <polygon
       points={starPoints}
       stroke='white'
-      fill={oklch(1, 0, 0, 0.5)}
+      fill={oklch(0, 0, 0, 0.5)}
     />
   );
   const D = (props: React.SVGProps<SVGPathElement>) => {
@@ -65,6 +65,8 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
       <path
         d={dPath}
         {...rest}
+        stroke={props.stroke ?? "white"}
+        fill='none'
       />
     );
   };
@@ -74,6 +76,8 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
       <path
         d={rPath}
         {...rest}
+        stroke={props.stroke ?? "white"}
+        fill='none'
       />
     );
   };
@@ -92,34 +96,22 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
       <Star />
       <D
         strokeWidth={radii[2] * phi ** 2}
-        stroke={oklch(1, 0.37, 270, 0.9)}
-        fill='none'
+        stroke={oklch(1, 0.37, 270, 0.75)}
       />
       <D
         strokeWidth={radii[2] * phi ** 3}
         stroke={oklch(0.5, 0.37, 270, 0.9)}
-        fill='none'
       />
-      <D
-        fill='none'
-        stroke='white'
-        strokeWidth={2}
-      />
+      <D strokeWidth={2} />
       <R
         strokeWidth={radii[2] * phi ** 2}
-        stroke={oklch(1, 0.37, 90, 0.9)}
-        fill='none'
+        stroke={oklch(1, 0.37, 90, 0.75)}
       />
       <R
         strokeWidth={radii[2] * phi ** 3}
         stroke={oklch(0.75, 0.37, 90, 0.9)}
-        fill='none'
       />
-      <R
-        fill='none'
-        stroke='white'
-        strokeWidth={2}
-      />
+      <R strokeWidth={2} />
     </svg>
   );
 }
