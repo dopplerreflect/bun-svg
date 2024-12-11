@@ -2,12 +2,13 @@ type Props = {
   width: number;
   height: number;
   stroke?: string;
+  strokeWidth?: number;
   scaleFactor: number;
   filter?: string;
 };
 
 export default function Grid(props: Props) {
-  const { width, height, stroke, scaleFactor, filter } = props;
+  const { width, height, stroke, strokeWidth = 1, scaleFactor, filter } = props;
   const lines: JSX.Element[] = [];
 
   // TODO lerp
@@ -21,7 +22,7 @@ export default function Grid(props: Props) {
           x2={x}
           y2={width / 2}
           stroke={stroke}
-          strokeWidth={x % scaleFactor === 0 ? 2 : 1}
+          strokeWidth={x % scaleFactor === 0 ? strokeWidth * 2 : strokeWidth}
         />,
       );
     });
@@ -36,7 +37,7 @@ export default function Grid(props: Props) {
           x2={width / 2}
           y2={y}
           stroke={stroke}
-          strokeWidth={y % scaleFactor === 0 ? 2 : 1}
+          strokeWidth={y % scaleFactor === 0 ? strokeWidth * 2 : strokeWidth}
         />,
       );
     });

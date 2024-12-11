@@ -11,7 +11,7 @@ type Props = {
   width?: number;
   height?: number;
 };
-export default function Matrix({ width = 1920, height = 1080 }: Props) {
+export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
   const phi = PHI - 1;
   const angles = anglesArray(10);
   const radii = [...Array(5).keys()].map(i => (height / 2) * 0.95 * phi ** i);
@@ -42,7 +42,8 @@ export default function Matrix({ width = 1920, height = 1080 }: Props) {
       <Grid
         {...{ width, height }}
         scaleFactor={radii[1]}
-        stroke={oklch(0.125, 0.5, 300)}
+        stroke={oklch(0.25, 0.5, 300)}
+        strokeWidth={0.25}
       />
       <Ripples {...{ width, height }} />
       {radii.map((r, i) => (
