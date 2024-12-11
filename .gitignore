@@ -1,3 +1,6 @@
+_.direnv/
+devbox.*
+
 .direnv/
 node_modules/
 images/*.png
