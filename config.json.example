@@ -1,0 +1,5 @@
+{
+  "use-latest": true,
+  "render-to-desktop": true,
+  "output": "eDP-1"
+}

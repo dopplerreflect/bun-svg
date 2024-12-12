@@ -3,25 +3,45 @@ import { $ } from "bun";
 import { parseArgs } from "util";
 import { readdir } from "node:fs/promises";
 import { format } from "prettier";
+import config from "./config.json";
 
 const { values: options, positionals } = parseArgs({
   args: Bun.argv,
   options: {
+    "use-latest": {
+      short: "l",
+      type: "boolean",
+      default: config["use-latest"] ?? false,
+    },
     "render-to-desktop": {
       short: "r",
       type: "boolean",
-      default: false,
+      default: config["render-to-desktop"] ?? false,
     },
     output: {
       short: "o",
       type: "string",
-      default: "eDP-1",
+      default: config.output ?? "eDP-1",
     },
   },
   allowPositionals: true,
 });
 
-const drawing = positionals[2];
+console.log({ config, options });
+
+// /usr/bin/env find src/drawings -type f -print | xargs stat -c %y=%n | sort -r
+// 2024-12-11 09:06:00.025476122 -0600=src/drawings/matrix/index.tsx
+const mostRecentlyEditedDrawing =
+  await $`find src/drawings -type f -print | xargs stat -c %y=%n | sort -r | head -1 | cut -d= -f 2 | cut -d\/ -f 3`;
+
+let drawing = positionals[2];
+
+if (!drawing && options["use-latest"]) {
+  drawing = mostRecentlyEditedDrawing.text().trim();
+  console.info(
+    `Did not specify drawing. Using  most recently edited drawing '${drawing}'.`,
+  );
+}
 
 const drawings = await readdir("./src/drawings");
 

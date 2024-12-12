@@ -3,7 +3,8 @@
   "module": "index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch ./index.tsx"
+    "dev": "bun run --watch ./index.tsx",
+    "preinstall": "cp -n ./config.json.example ./config.json"
   },
   "devDependencies": {
     "@types/bun": "latest",

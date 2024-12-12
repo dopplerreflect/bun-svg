@@ -8,3 +8,4 @@ images/*.svg
 
 .bunfig.toml
 .env
+config.json
