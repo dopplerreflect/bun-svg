@@ -5,10 +5,11 @@ import { PHI } from "@dopplerreflect/geometry";
 type Props = {
   width: number;
   height: number;
+  radius: number;
 };
 
 export default function Ripples(props: Props) {
-  const { width, height } = props;
+  const { width, height, radius } = props;
   return (
     <>
       <defs>
@@ -16,7 +17,7 @@ export default function Ripples(props: Props) {
           id={"ripple-gradient"}
           cx='0'
           cy='0'
-          r={(height / 2) * 0.95 * (PHI - 1)}
+          r={radius * (PHI - 1)}
           spreadMethod='repeat'
           gradientUnits='userSpaceOnUse'
         >

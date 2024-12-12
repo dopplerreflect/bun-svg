@@ -12,9 +12,10 @@ type Props = {
   height?: number;
 };
 export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
+  const radiusBase = (width / 2) * 0.95;
   const phi = PHI - 1;
   const angles = anglesArray(10);
-  const radii = [...Array(5).keys()].map(i => (height / 2) * 0.95 * phi ** i);
+  const radii = [...Array(5).keys()].map(i => radiusBase * phi ** i);
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -43,9 +44,12 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
         {...{ width, height }}
         scaleFactor={radii[1]}
         stroke={oklch(0.25, 0.5, 300)}
-        strokeWidth={0.25}
+        strokeWidth={1.5}
       />
-      <Ripples {...{ width, height }} />
+      <Ripples
+        {...{ width, height }}
+        radius={radiusBase}
+      />
       {radii.map((r, i) => (
         <circle
           key={r}
