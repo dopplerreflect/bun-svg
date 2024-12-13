@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch ./index.tsx",
-    "preinstall": "cp -n ./config.json.example ./config.json"
+    "preinstall": "cp -u ./config.json.example ./config.json"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -17,7 +17,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@dopplerreflect/geometry": "^0.0.2",
+    "@dopplerreflect/geometry": "^0.0.3",
     "chroma-js": "^3.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
