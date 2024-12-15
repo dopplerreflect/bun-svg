@@ -9,17 +9,12 @@ type Props = {
   width?: number;
   height?: number;
 };
-export default function GoldenHexiglass({
-  width = 1920,
-  height = 1080,
-}: Props) {
+export default function BunSVG20241214({ width = 1920, height = 1080 }: Props) {
   const phi = PHI - 1;
   const size = height / 4.5;
   const radii = [...Array(3).keys()].map(i => size * phi ** i);
   const angles = anglesArray(6);
-
   const circles = circleArray(angles, radii);
-
   const lines = lineArray(angles, radii);
 
   return (

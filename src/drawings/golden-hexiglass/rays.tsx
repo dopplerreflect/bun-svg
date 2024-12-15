@@ -12,7 +12,7 @@ export default (props: Props & React.SVGProps<SVGPathElement>) => {
   const angles = anglesArray(72, 0);
   const paths = angles.map(
     (a, i) =>
-      `M0 0L${radialPointString(a, radius)}A${radius} ${radius} 1 0 0 ${radialPointString(a + angles[1] / 2, radius)}Z`,
+      `M0 0L${radialPointString(a, radius)}A${radius} ${radius} 0 0 1 ${radialPointString(a + angles[1] / 2, radius)}Z`,
   );
   return (
     <>
@@ -25,15 +25,23 @@ export default (props: Props & React.SVGProps<SVGPathElement>) => {
       >
         <stop
           offset={0}
-          stopColor={oklch(0, 0.37, 300).hex()}
+          stopColor={oklch(0.0, 0.36, 300).hex()}
         />
         <stop
-          offset={0.37}
-          stopColor={oklch(0.12, 0.37, 300).hex()}
+          offset={0.25}
+          stopColor={oklch(0.1, 0.28, 300).hex()}
+        />
+        <stop
+          offset={0.5}
+          stopColor={oklch(0.2, 0.2, 300).hex()}
+        />
+        <stop
+          offset={0.75}
+          stopColor={oklch(0.6, 0.12, 300).hex()}
         />
         <stop
           offset={1}
-          stopColor={oklch(0.25, 0.37, 300).hex()}
+          stopColor={oklch(0.8, 0, 300).hex()}
         />
       </radialGradient>
       <Background
@@ -50,7 +58,7 @@ export default (props: Props & React.SVGProps<SVGPathElement>) => {
             {...{ d }}
             stroke={"black"}
             strokeWidth={3}
-            fill={oklch(0.0, 0.37, 0).alpha(0.5).hex()}
+            fill={oklch(0.05, 0.37, 330).alpha(0.5).hex()}
           />
         ))}
       </g>
