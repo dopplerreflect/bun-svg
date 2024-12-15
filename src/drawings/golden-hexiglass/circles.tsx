@@ -1,6 +1,5 @@
 import type { Circle } from "@dopplerreflect/geometry/src/types";
 import { PHI, radialPoint } from "@dopplerreflect/geometry";
-import { oklch } from "chroma-js";
 export const circleArray = (angles: number[], radii: number[]): Circle[] => [
   { r: radii[0] * PHI, x: 0, y: 0 },
   ...radii.map(r => ({ r, x: 0, y: 0 })),
@@ -12,19 +11,10 @@ export const circleArray = (angles: number[], radii: number[]): Circle[] => [
 type Props = {
   circles: Circle[];
 };
-export default function Circles(props: Props) {
-  const { circles } = props;
-  const styles = {
-    circles: {
-      fill: "none",
-      stroke: oklch(0.75, 0.37, 270).hex(),
-    },
-  };
+export default function Circles(props: Props & React.SVGProps<SVGGElement>) {
+  const { circles, ...rest } = props;
   return (
-    <g
-      id='circles'
-      style={styles.circles}
-    >
+    <g {...rest}>
       {circles.map((c, i) => (
         <circle
           key={i}

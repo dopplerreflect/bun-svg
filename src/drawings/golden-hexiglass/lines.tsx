@@ -5,18 +5,10 @@ import { oklch } from "chroma-js";
 type Props = {
   lines: Line[];
 };
-export default function Lines(props: Props) {
-  const { lines } = props;
-  const styles = {
-    lines: {
-      stroke: oklch(0.95, 0.37, 90).hex(),
-    },
-  };
+export default function Lines(props: Props & React.SVGProps<SVGGElement>) {
+  const { lines, ...rest } = props;
   return (
-    <g
-      id='lines'
-      style={styles.lines}
-    >
+    <g {...rest}>
       {lines.map((h, i) => (
         <line
           key={i}
