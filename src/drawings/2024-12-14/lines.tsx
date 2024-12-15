@@ -1,6 +1,5 @@
 import type { Line } from "@dopplerreflect/geometry/src/types";
 import { radialPoint, PHI } from "@dopplerreflect/geometry";
-import { oklch } from "chroma-js";
 
 type Props = {
   lines: Line[];
