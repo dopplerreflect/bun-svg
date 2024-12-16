@@ -5,9 +5,10 @@ import { oklch } from "chroma-js";
 type Props = {
   width: number;
   height: number;
+  viewBoxOffset?: { x: number; y: number };
 };
 export default (props: Props & React.SVGProps<SVGPathElement>) => {
-  const { width, height, ...rest } = props;
+  const { width, height, viewBoxOffset = { x: 0, y: 0 }, ...rest } = props;
   const radius = Math.sqrt((width / 2) ** 2 + (height / 2) ** 2);
   const angles = anglesArray(72, 0);
   const paths = angles.map(
@@ -45,7 +46,7 @@ export default (props: Props & React.SVGProps<SVGPathElement>) => {
         />
       </radialGradient>
       <Background
-        {...{ width, height }}
+        {...{ width, height, viewBoxOffset }}
         fill='url(#ray-gradient)'
       />
       <g

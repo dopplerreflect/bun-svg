@@ -9,3 +9,4 @@ images/*.svg
 .bunfig.toml
 .env
 config.json
+src/printful.com.specs

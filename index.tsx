@@ -23,6 +23,11 @@ const { values: options, positionals } = parseArgs({
       type: "string",
       default: config.output ?? "eDP-1",
     },
+    inkscape: {
+      short: "i",
+      type: "boolean",
+      default: config.inkscape ?? false,
+    },
   },
   allowPositionals: true,
 });
@@ -65,8 +70,9 @@ const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
 await Bun.write(`${filePath}.svg`, svg);
 
 async function renderToPNG() {
-  const { stdout, stderr, exitCode } =
-    await $`magick -background none ${filePath}.svg ${filePath}.png`;
+  const { stdout, stderr, exitCode } = config.inkscape
+    ? await $`inkscape ${filePath}.svg --export-type=png -o ${filePath}.png`
+    : await $`magick -background none ${filePath}.svg ${filePath}.png`;
   if (exitCode) console.log(stderr.toString());
 }
 async function setDesktopBackground() {
