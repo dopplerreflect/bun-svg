@@ -12,7 +12,7 @@ type Props = {
   width?: number;
   height?: number;
 };
-const size = 1000;
+const size = 3000;
 const scale = 0.3;
 const strokeWidth = size * scale * 0.000925;
 export default function HoodieFront({ width = size, height = size }: Props) {
@@ -30,6 +30,16 @@ export default function HoodieFront({ width = size, height = size }: Props) {
       viewBox={`${-width / 2 + viewBoxOffset.x} ${-height / 2 + viewBoxOffset.y} ${width} ${height}`}
     >
       <defs>
+        <mask id='g-mask'>
+          <Background
+            {...{ width, height, viewBoxOffset }}
+            fill='white'
+          />
+          <circle
+            r={circles[0].r}
+            fill='black'
+          />
+        </mask>
         <mask id='circle-mask'>
           <Background
             {...{ width, height, viewBoxOffset }}
@@ -67,12 +77,21 @@ export default function HoodieFront({ width = size, height = size }: Props) {
           </feMerge>
         </filter>
       </defs>
-      <Rays {...{ width, height, viewBoxOffset, strokeWidth }} />
+      <Background
+        {...{ width, height }}
+        fill={oklch(0, 0, 270).hex()}
+      />
+      <g mask='url(#g-mask)'>
+        <Rays {...{ width, height, viewBoxOffset, strokeWidth }} />
+      </g>
       <Circles
         {...{ circles }}
         id='circles-blurred'
         mask='url(#circle-mask)'
-        style={{ stroke: oklch(1, 0, 0).hex(), strokeWidth: 13 * strokeWidth }}
+        style={{
+          stroke: oklch(1, 0, 0).hex(),
+          strokeWidth: 13 * strokeWidth,
+        }}
         filter='url(#circle-blur)'
       />
       <Circles
