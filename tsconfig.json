@@ -28,7 +28,8 @@
     "paths": {
       "$drawings/*": ["src/drawings/*"],
       "$components/*": ["src/components/*"],
-      "$lib/*": ["src/lib/*"]
+      "$lib/*": ["src/lib/*"],
+      "$config": ["config.json"]
     }
   }
 }

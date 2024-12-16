@@ -71,7 +71,7 @@ await Bun.write(`${filePath}.svg`, svg);
 
 async function renderToPNG() {
   const { stdout, stderr, exitCode } = config.inkscape
-    ? await $`inkscape ${filePath}.svg --export-type=png -o ${filePath}.png`
+    ? await $`inkscape ${filePath}.svg --export-type=png --export-dpi=150 -o ${filePath}.png`
     : await $`magick -background none ${filePath}.svg ${filePath}.png`;
   if (exitCode) console.log(stderr.toString());
 }
