@@ -69,7 +69,8 @@ export default (props: Props & React.SVGProps<SVGPathElement>) => {
             {...{ d }}
             stroke={"black"}
             strokeWidth={3 * strokeWidth}
-            fill={oklch(0.05, 0.37, 330).alpha(0.5).hex()}
+            fill={oklch(0.1, 0.37, 330).hex()}
+            fillOpacity={0.5}
           />
         ))}
       </g>
