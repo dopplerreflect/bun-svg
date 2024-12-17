@@ -32,17 +32,17 @@ const { values: options, positionals } = parseArgs({
   allowPositionals: true,
 });
 
-console.log({ config, options });
+console.log(JSON.stringify(options));
 
-// /usr/bin/env find src/drawings -type f -print | xargs stat -c %y=%n | sort -r
-// 2024-12-11 09:06:00.025476122 -0600=src/drawings/matrix/index.tsx
-const mostRecentlyEditedDrawing =
-  await $`find src/drawings -type f -print | xargs stat -c %y=%n | sort -r | head -1 | cut -d= -f 2 | cut -d\/ -f 3`;
-
+const mostRecentlyEditedDrawing = async () => {
+  const { stdout } =
+    await $`find src/drawings -type f -print | xargs stat -c %y=%n | sort -r | head -1 | cut -d= -f 2 | cut -d\/ -f 3`;
+  return stdout.toString().trim();
+};
 let drawing = positionals[2];
 
 if (!drawing && options["use-latest"]) {
-  drawing = mostRecentlyEditedDrawing.text().trim();
+  drawing = await mostRecentlyEditedDrawing();
   console.info(
     `Did not specify drawing. Using  most recently edited drawing '${drawing}'.`,
   );
@@ -71,13 +71,15 @@ await Bun.write(`${filePath}.svg`, svg);
 
 async function renderToPNG() {
   const { stdout, stderr, exitCode } = config.inkscape
-    ? await $`inkscape ${filePath}.svg --export-type=png --export-dpi=150 -o ${filePath}.png`
-    : await $`magick -background none ${filePath}.svg ${filePath}.png`;
-  if (exitCode) console.log(stderr.toString());
+    ? await $`inkscape ${filePath}.svg --export-type=png --export-dpi=150 --export-png-color-mode=RGBA_16 -o ${filePath}.png`
+    : await $`magick -verbose rsvg:${filePath}.svg ${filePath}.png`;
+  console.log(stdout.toString());
+  if (exitCode) console.log(exitCode, stderr.toString());
 }
 async function setDesktopBackground() {
   const { stdout, stderr, exitCode } =
-    await $`swww img -o ${options.output} -t top --resize=fit --transition-duration 1 ${filePath}.png`;
+    // await $`swww img -o ${options.output} -t top --resize=fit --transition-duration 1 ${filePath}.png`;
+    await $`swww img -o ${options.output} -t top --resize fit --transition-duration 1 ${filePath}.png`;
   if (exitCode) console.log(stderr.toString());
 }
 
