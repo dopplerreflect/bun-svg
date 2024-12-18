@@ -66,7 +66,7 @@ await Bun.write(`${filePath}.svg`, svg);
 
 async function renderToPNG() {
   const { stdout, stderr, exitCode } =
-    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -w 6000 -h 6000 -o ${filePath}.png ${filePath}.svg`;
+    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${filePath}.png ${filePath}.svg`;
   console.log(stdout.toString());
   if (exitCode) console.log(exitCode, stderr.toString());
 }

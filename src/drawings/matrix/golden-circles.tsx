@@ -5,9 +5,10 @@ type Props = {
   angles: number[];
   radii: number[];
   stroke: string;
+  strokeWidth?: number;
 };
 export default function GoldenCircles(props: Props) {
-  const { angles, radii, stroke } = props;
+  const { angles, radii, stroke, strokeWidth = 1 } = props;
   const circles: Circle[] = [
     ...angles.map(a => [
       ...radii.map(r => ({ r, ...radialPoint(a, radii[1]) })),
@@ -45,6 +46,7 @@ export default function GoldenCircles(props: Props) {
             cx={c.x}
             cy={c.y}
             stroke={stroke}
+            strokeWidth={strokeWidth}
             fill='none'
           />
         ))}

@@ -4,13 +4,14 @@ type Props = {
   angles: number[];
   radii: number[];
   stroke: string;
+  strokeWidth?: number;
 };
 export default function DecagonCrystal(props: Props) {
-  const { angles, radii, stroke } = props;
+  const { angles, radii, stroke, strokeWidth = 1 } = props;
   const lineAngleMatrixSet: Set<string> = new Set();
 
   angles.forEach((_, a) => {
-    [...Array(7).keys()].forEach(b => {
+    [...Array(angles.length - 3).keys()].forEach(b => {
       lineAngleMatrixSet.add(
         JSON.stringify([a, (a + b + 2) % angles.length].sort()),
       );
@@ -31,7 +32,7 @@ export default function DecagonCrystal(props: Props) {
           y1={start.y}
           x2={end.x}
           y2={end.y}
-          {...{ stroke }}
+          {...{ stroke, strokeWidth }}
         />
       );
     }),

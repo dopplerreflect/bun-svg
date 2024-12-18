@@ -11,8 +11,10 @@ type Props = {
   width?: number;
   height?: number;
 };
+
 export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
-  const radiusBase = (width / 2) * 0.95;
+  const scale = 1;
+  const radiusBase = (height / 2) * 0.95;
   const phi = PHI - 1;
   const angles = anglesArray(10);
   const radii = [...Array(5).keys()].map(i => radiusBase * phi ** i);
@@ -20,6 +22,8 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+      width={width * scale}
+      height={height * scale}
     >
       <defs>
         <filter id='cheap-glow'>
@@ -55,6 +59,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
           key={r}
           r={r}
           stroke={oklch(0.95, 0.8, 270)}
+          strokeWidth={1}
           fill={`url(#rrg-gradient${i})`}
         />
       ))}
@@ -64,6 +69,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
             key={r}
             r={r}
             stroke={oklch(0.95, 0.8, 270)}
+            strokeWidth={1}
             fill='none'
             filter='url(#cheap-glow)'
           />
@@ -71,10 +77,12 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
         <GoldenCircles
           {...{ angles, radii }}
           stroke={oklch(0.75, 0.37, 270)}
+          strokeWidth={1}
         />
         <DecagonCrystal
           {...{ angles, radii }}
           stroke={oklch(1, 0.37, 270)}
+          strokeWidth={1}
         />
       </g>
     </svg>
