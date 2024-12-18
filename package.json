@@ -11,8 +11,12 @@
     "@types/chroma-js": "^2.4.4",
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.3.5",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "@dopplerreflect/printful-templates": "link:@dopplerreflect/printful-templates"
   },
+  "trustedDependencies": [
+    "@dopplerreflect/printful-templates"
+  ],
   "peerDependencies": {
     "typescript": "^5.7.2"
   },

@@ -6,7 +6,7 @@ import Lines, { lineArray } from "./lines";
 import Rays from "./rays";
 import config from "$config";
 
-import PrintfulTemplate from "$components/printful-template";
+import PrintfulTemplate from "@dopplerreflect/printful-templates";
 
 type Props = {
   width?: number;
