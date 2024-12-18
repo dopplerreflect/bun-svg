@@ -1,2 +1,2 @@
-import HoodieHood from "./hoodie-hood";
-export default HoodieHood;
+import HoodieFront from "./hoodie-front";
+export default HoodieFront;

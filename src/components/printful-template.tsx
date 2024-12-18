@@ -23,7 +23,7 @@ export default ({
       {...{ width, height }}
     >
       <image
-        href={`file:///home/doppler/Code/bun-svg/src/printful.com.specs/${image}.png`}
+        href={`file://${process.cwd()}/images/printful.com.specs/${image}.png`}
         {...{ width, height }}
       />
     </pattern>

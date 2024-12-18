@@ -1,12 +1,6 @@
-_.direnv/
-devbox.*
-
-.direnv/
 node_modules/
 images/*.png
 images/*.svg
+images/printful.com.specs
 
-.bunfig.toml
-.env
 config.json
-src/printful.com.specs

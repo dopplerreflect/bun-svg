@@ -1,0 +1,133 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "bun@latest": {
+      "last_modified": "2024-11-26T10:33:56Z",
+      "resolved": "github:NixOS/nixpkgs/af51545ec9a44eadf3fe3547610a5cdd882bc34e#bun",
+      "source": "devbox-search",
+      "version": "1.1.34",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0hxh6hmzkpg56l11vsnyb287jynhf5f4-bun-1.1.34",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0hxh6hmzkpg56l11vsnyb287jynhf5f4-bun-1.1.34"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/dyxydqn8j83z5y45bxcx2haz7kzpwsi2-bun-1.1.34",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/dyxydqn8j83z5y45bxcx2haz7kzpwsi2-bun-1.1.34"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fn9h6y3v8il2yax5pm965lacxzj8pq9q-bun-1.1.34",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fn9h6y3v8il2yax5pm965lacxzj8pq9q-bun-1.1.34"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/mzk71frmsppga4i7sz7ca3r9wxv8slx9-bun-1.1.34",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/mzk71frmsppga4i7sz7ca3r9wxv8slx9-bun-1.1.34"
+        }
+      }
+    },
+    "librsvg@latest": {
+      "last_modified": "2024-12-08T11:15:23Z",
+      "resolved": "github:NixOS/nixpkgs/93dc9803a1ee435e590b02cde9589038d5cc3a4e#librsvg",
+      "source": "devbox-search",
+      "version": "2.58.3",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qbhsflxglvf1hn29n9g52wrqa5nk504c-librsvg-2.58.3",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/gwrpg348m169dd1b0i6f8avibpvw79y0-librsvg-2.58.3-dev"
+            },
+            {
+              "name": "devdoc",
+              "path": "/nix/store/qznpyzjhn08sj7804alcdw02444in8i0-librsvg-2.58.3-devdoc"
+            }
+          ],
+          "store_path": "/nix/store/qbhsflxglvf1hn29n9g52wrqa5nk504c-librsvg-2.58.3"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/grlp0qrk7mbgya6hd479cqicbicqi4pl-librsvg-2.58.3",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/5yk731nl7rpa8mndz7d8blz24mv539as-librsvg-2.58.3-dev"
+            },
+            {
+              "name": "devdoc",
+              "path": "/nix/store/kqqr3sqwd59jb23261j6l10z813sih2d-librsvg-2.58.3-devdoc"
+            }
+          ],
+          "store_path": "/nix/store/grlp0qrk7mbgya6hd479cqicbicqi4pl-librsvg-2.58.3"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vs032mkp3g4w5hcsh8bjh41wbps120mr-librsvg-2.58.3",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/mipxidfzs3d4rbqzwlxqnrgvfm3bl7xj-librsvg-2.58.3-dev"
+            },
+            {
+              "name": "devdoc",
+              "path": "/nix/store/h0klvlx6l3wac6416ydhwc02r9wwrd8f-librsvg-2.58.3-devdoc"
+            }
+          ],
+          "store_path": "/nix/store/vs032mkp3g4w5hcsh8bjh41wbps120mr-librsvg-2.58.3"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1yg87y53lwkg1a0lz9201a3x3dm1d593-librsvg-2.58.3",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/421z2rfgwvkbn347ws5v5lcm07kmfny0-librsvg-2.58.3-dev"
+            },
+            {
+              "name": "devdoc",
+              "path": "/nix/store/chfvjx3yckhby7drs91d2i33lldbly4h-librsvg-2.58.3-devdoc"
+            }
+          ],
+          "store_path": "/nix/store/1yg87y53lwkg1a0lz9201a3x3dm1d593-librsvg-2.58.3"
+        }
+      }
+    }
+  }
+}

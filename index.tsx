@@ -23,11 +23,6 @@ const { values: options, positionals } = parseArgs({
       type: "string",
       default: config.output ?? "eDP-1",
     },
-    inkscape: {
-      short: "i",
-      type: "boolean",
-      default: config.inkscape ?? false,
-    },
   },
   allowPositionals: true,
 });
@@ -70,9 +65,8 @@ const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
 await Bun.write(`${filePath}.svg`, svg);
 
 async function renderToPNG() {
-  const { stdout, stderr, exitCode } = config.inkscape
-    ? await $`inkscape ${filePath}.svg --export-type=png --export-dpi=150 --export-png-color-mode=RGBA_16 -o ${filePath}.png`
-    : await $`magick -verbose rsvg:${filePath}.svg ${filePath}.png`;
+  const { stdout, stderr, exitCode } =
+    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -w 6000 -h 6000 -o ${filePath}.png ${filePath}.svg`;
   console.log(stdout.toString());
   if (exitCode) console.log(exitCode, stderr.toString());
 }
