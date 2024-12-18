@@ -22,7 +22,11 @@ export default function Grid(props: Props) {
           x2={x}
           y2={height / 2}
           stroke={stroke}
-          strokeWidth={x % scaleFactor === 0 ? strokeWidth * 2 : strokeWidth}
+          strokeWidth={
+            Math.round(x) % Math.round(scaleFactor) === 0
+              ? strokeWidth * 2
+              : strokeWidth
+          }
         />,
       );
     });
@@ -37,7 +41,11 @@ export default function Grid(props: Props) {
           x2={width / 2}
           y2={y}
           stroke={stroke}
-          strokeWidth={y % scaleFactor === 0 ? strokeWidth * 2 : strokeWidth}
+          strokeWidth={
+            Math.round(y) % Math.round(scaleFactor) === 0
+              ? strokeWidth * 2
+              : strokeWidth
+          }
         />,
       );
     });

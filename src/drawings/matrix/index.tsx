@@ -46,7 +46,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
       />
       <Grid
         {...{ width, height }}
-        scaleFactor={radii[1]}
+        scaleFactor={radii[2]}
         stroke={oklch(0.25, 0.5, 300)}
         strokeWidth={1.5}
       />
