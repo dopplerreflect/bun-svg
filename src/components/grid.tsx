@@ -9,7 +9,6 @@ type Props = {
 
 export default function Grid(props: Props) {
   const { width, height, stroke, strokeWidth = 1, scaleFactor, filter } = props;
-  console.log({ width, height });
   const lines: JSX.Element[] = [];
 
   // TODO lerp
