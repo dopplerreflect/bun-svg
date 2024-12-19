@@ -1,10 +1,10 @@
-import Background from "$components/Background";
 import {
+  type Circle,
   phylotaxis,
   findNearest,
   calculateDistance,
 } from "@dopplerreflect/geometry";
-import type { Circle } from "@dopplerreflect/geometry/src/types";
+import Background from "$components/Background";
 import { oklch } from "chroma-js";
 
 export default function Phylotaxis({ width = 1920, height = 1080 }) {
@@ -31,6 +31,8 @@ export default function Phylotaxis({ width = 1920, height = 1080 }) {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+      width={width}
+      height={height}
     >
       <defs>
         <filter id='blur'>

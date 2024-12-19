@@ -1,5 +1,4 @@
-import Background from "$components/Background";
-import { oklch } from "$lib/color";
+import { oklch } from "chroma-js";
 import { anglesArray, PHI, radialPointString } from "@dopplerreflect/geometry";
 
 type Props = {
@@ -41,7 +40,7 @@ export default function DrLogo({ width = 3000, height = 3000 }: Props) {
         key={r}
         {...{ r }}
         stroke='white'
-        fill={oklch(1, 0, 0, 0.15)}
+        fill={oklch(1, 0, 0, 0.15).hex()}
       />
     ));
   const Rays = () =>

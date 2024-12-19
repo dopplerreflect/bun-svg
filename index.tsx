@@ -8,26 +8,37 @@ import config from "./config.json";
 const { values: options, positionals } = parseArgs({
   args: Bun.argv,
   options: {
+    list: {
+      type: "boolean",
+      default: false,
+    },
     "use-latest": {
       short: "l",
       type: "boolean",
-      default: config["use-latest"] ?? false,
-    },
-    "render-to-desktop": {
-      short: "r",
-      type: "boolean",
-      default: config["render-to-desktop"] ?? false,
+      default: config["use-latest"] ?? true,
     },
     output: {
       short: "o",
       type: "string",
       default: config.output ?? "eDP-1",
     },
+    "render-to-desktop": {
+      short: "r",
+      type: "boolean",
+      default: config["render-to-desktop"] ?? false,
+    },
   },
   allowPositionals: true,
 });
 
-console.log(JSON.stringify(options));
+// console.log(JSON.stringify(options));
+
+const drawings = await readdir("./src/drawings");
+
+if (options.list) {
+  console.log(drawings.sort());
+  process.exit();
+}
 
 const mostRecentlyEditedDrawing = async () => {
   const { stdout } =
@@ -42,8 +53,6 @@ if (!drawing && options["use-latest"]) {
     `Did not specify drawing. Using  most recently edited drawing '${drawing}'.`,
   );
 }
-
-const drawings = await readdir("./src/drawings");
 
 if (!drawings.includes(drawing)) {
   console.error(`The drawing "${drawing}" does not exist.`);

@@ -1,2 +1,2 @@
-import HoodieFront from "./hoodie-front";
-export default HoodieFront;
+import GoldenSeedOfLifeHex from "./original";
+export default GoldenSeedOfLifeHex;

@@ -1,7 +1,7 @@
 import { anglesArray, radialPointString, PHI } from "@dopplerreflect/geometry";
 import { Background, LinearGradient } from "$components/all";
 import HighlightFilter from "./highlightFilter";
-import { oklch } from "$lib/color";
+import { oklch } from "chroma-js";
 
 const phi = PHI - 1;
 
@@ -37,13 +37,13 @@ export default function Pentagram({
           id='backgroundGradient'
           gradientTransform='rotate(90)'
           stops={[
-            { offset: 0, stopColor: oklch(0.0, 0.0, hue) },
-            { offset: 48, stopColor: oklch(0.25, 0.37, hue) },
-            { offset: 49, stopColor: oklch(0.5, 0.37, hue) },
-            { offset: 50, stopColor: oklch(0.95, 0.37, hue) },
-            { offset: 51, stopColor: oklch(0.5, 0.37, hue) },
-            { offset: 52, stopColor: oklch(0.25, 0.37, hue) },
-            { offset: 100, stopColor: oklch(0.0, 0.0, hue) },
+            { offset: 0, stopColor: oklch(0.0, 0.0, hue).hex() },
+            { offset: 48, stopColor: oklch(0.25, 0.37, hue).hex() },
+            { offset: 49, stopColor: oklch(0.5, 0.37, hue).hex() },
+            { offset: 50, stopColor: oklch(0.95, 0.37, hue).hex() },
+            { offset: 51, stopColor: oklch(0.5, 0.37, hue).hex() },
+            { offset: 52, stopColor: oklch(0.25, 0.37, hue).hex() },
+            { offset: 100, stopColor: oklch(0.0, 0.0, hue).hex() },
           ]}
         />
         <HighlightFilter
@@ -62,7 +62,7 @@ export default function Pentagram({
       <g
         filter='url(#highlight)'
         strokeWidth={20 * strokeSize}
-        stroke={oklch(0.5, 0.37, hue)}
+        stroke={oklch(0.5, 0.37, hue).hex()}
         strokeLinejoin='round'
         fill='none'
       >
