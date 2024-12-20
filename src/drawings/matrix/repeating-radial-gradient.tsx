@@ -1,4 +1,4 @@
-import { oklch } from "$lib/color";
+import { oklch } from "chroma-js";
 import { PHI } from "@dopplerreflect/geometry";
 type Props = {
   radii: number[];
@@ -18,7 +18,12 @@ export default function RepeatingRadialGradient(props: Props) {
               <stop
                 key={i}
                 offset={1 / PHI ** i}
-                stopColor={oklch(0 + 0.25 * o, 0.37, 30 * o, 0.1 + 0.15 * o)}
+                stopColor={oklch(
+                  0 + 0.25 * o,
+                  0.37,
+                  30 * o,
+                  0.1 + 0.15 * o,
+                ).hex()}
               />
             ))}
           </radialGradient>

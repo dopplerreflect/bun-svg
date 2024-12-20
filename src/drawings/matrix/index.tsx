@@ -1,5 +1,5 @@
 import { Background } from "$components/all";
-import { oklch } from "$lib/color";
+import { oklch } from "chroma-js";
 import { anglesArray, PHI } from "@dopplerreflect/geometry";
 import DecagonCrystal from "./decagon-crystal";
 import RepeatingRadialGradient from "./repeating-radial-gradient";
@@ -42,12 +42,12 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
 
       <Background
         {...{ width, height }}
-        fill={oklch(0.0, 0.15, 300)}
+        fill={oklch(0.0, 0.15, 300).hex()}
       />
       <Grid
         {...{ width, height }}
         scaleFactor={radii[2]}
-        stroke={oklch(0.25, 0.5, 300)}
+        stroke={oklch(0.25, 0.5, 300).hex()}
         strokeWidth={1.5}
       />
       <Ripples
@@ -58,7 +58,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
         <circle
           key={r}
           r={r}
-          stroke={oklch(0.95, 0.8, 270)}
+          stroke={oklch(0.95, 0.8, 270).hex()}
           strokeWidth={1}
           fill={`url(#rrg-gradient${i})`}
         />
@@ -68,7 +68,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
           <circle
             key={r}
             r={r}
-            stroke={oklch(0.95, 0.8, 270)}
+            stroke={oklch(0.95, 0.8, 270).hex()}
             strokeWidth={1}
             fill='none'
             filter='url(#cheap-glow)'
@@ -76,12 +76,12 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
         ))}
         <GoldenCircles
           {...{ angles, radii }}
-          stroke={oklch(0.75, 0.37, 270)}
+          stroke={oklch(0.75, 0.37, 270).hex()}
           strokeWidth={1}
         />
         <DecagonCrystal
           {...{ angles, radii }}
-          stroke={oklch(1, 0.37, 270)}
+          stroke={oklch(1, 0.37, 270).hex()}
           strokeWidth={1}
         />
       </g>

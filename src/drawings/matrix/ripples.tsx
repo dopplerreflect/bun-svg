@@ -1,5 +1,5 @@
 import Background from "$components/Background";
-import { oklch } from "$lib/color";
+import { oklch } from "chroma-js";
 import { PHI } from "@dopplerreflect/geometry";
 
 type Props = {
@@ -25,7 +25,12 @@ export default function Ripples(props: Props) {
             <stop
               key={i}
               offset={1 * (PHI - 1) ** i}
-              stopColor={oklch(1 * (PHI - 1) ** i, 0.37, 210 + 60 * i, 0.5)}
+              stopColor={oklch(
+                1 * (PHI - 1) ** i,
+                0.37,
+                210 + 60 * i,
+                0.5,
+              ).hex()}
             />
           ))}
         </radialGradient>
