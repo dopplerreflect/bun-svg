@@ -19,20 +19,18 @@ export default function GoldenCrystalPhyllotaxic({
   const count = 2 ** 12;
   const phylotaxicRadius = Math.sqrt((width / 2) ** 2 + (height / 2) ** 2);
   const phylotaxicPoints = phylotaxis(count, phylotaxicRadius).filter(
-    p => Math.sqrt(p.x ** 2 + p.y ** 2) > 1,
+    p =>
+      Math.sqrt(p.x ** 2 + p.y ** 2) > 1 &&
+      Math.abs(p.x) < width / 2 + width * 0.08 &&
+      Math.abs(p.y) < height / 2 + height * 0.08,
   );
 
   const phylotaxicCircles: Circle[] = [{ r: 1, ...phylotaxicPoints[0] }];
 
   phylotaxicPoints.forEach((p, i) => {
-    if (
-      Math.abs(p.x) < width / 2 + width * 0.06 &&
-      Math.abs(p.y) < height / 2 + height * 0.06
-    ) {
-      const nearestCircle = findNearest(p, phylotaxicCircles) as Circle;
-      const distance = calculateDistance(p, nearestCircle);
-      phylotaxicCircles.push({ r: distance - nearestCircle.r, ...p });
-    }
+    const nearestCircle = findNearest(p, phylotaxicCircles) as Circle;
+    const distance = calculateDistance(p, nearestCircle);
+    phylotaxicCircles.push({ r: distance - nearestCircle.r, ...p });
   });
 
   const angles = anglesArray(10);
