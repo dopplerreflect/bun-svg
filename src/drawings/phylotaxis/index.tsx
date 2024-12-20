@@ -46,6 +46,8 @@ export default function GoldenCrystalPhyllotaxic({
     radii.slice(0, 3).map(r => r * PHI ** 2),
   );
 
+  const hueStart = 180;
+
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -122,8 +124,8 @@ export default function GoldenCrystalPhyllotaxic({
               r={c.r}
               cx={c.x}
               cy={c.y}
-              fill={oklch(0.15, 0.37, (360 / count) * i).hex()}
-              stroke={oklch(0.99, 0.37, (360 / count) * i).hex()}
+              fill={oklch(0.5, 0.37, hueStart + (360 / count) * i).hex()}
+              stroke={oklch(0.99, 0.37, hueStart + (360 / count) * i).hex()}
             />
           ))}
         </g>
@@ -137,7 +139,7 @@ export default function GoldenCrystalPhyllotaxic({
               r={p.r / 8}
               cx={p.x}
               cy={p.y}
-              fill={oklch(1, 0.27, (360 / count) * i).hex()}
+              fill={oklch(1, 0.27, hueStart + (360 / count) * i).hex()}
               transform={`translate(0 -${p.r * phi})`}
             />
           ))}
@@ -164,7 +166,7 @@ export default function GoldenCrystalPhyllotaxic({
             y1={l[0].y}
             x2={l[1].x}
             y2={l[1].y}
-            stroke={oklch(1, 0.37, 240).hex()}
+            stroke={oklch(0.99, 0.37, 270).hex()}
             strokeWidth={2}
           />
         ))}
