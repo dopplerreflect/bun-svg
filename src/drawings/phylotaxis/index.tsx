@@ -101,6 +101,7 @@ export default function GoldenCrystalPhyllotaxic({
           </feComponentTransfer>
           <feMerge>
             <feMergeNode />
+            <feMergeNode />
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
