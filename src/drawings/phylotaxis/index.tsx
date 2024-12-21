@@ -16,7 +16,7 @@ export default function GoldenCrystalPhyllotaxic({
   width = 1920,
   height = 1080,
 }) {
-  const count = 2 ** 12;
+  const count = 2 ** 13;
   const phylotaxicRadius = Math.sqrt((width / 2) ** 2 + (height / 2) ** 2);
   const phylotaxicPoints = phylotaxis(count, phylotaxicRadius).filter(
     p =>
@@ -79,10 +79,6 @@ export default function GoldenCrystalPhyllotaxic({
           </feMerge>
         </filter>
         <filter id='glow'>
-          <feMorphology
-            operator={"dilate"}
-            radius={0}
-          />
           <feGaussianBlur stdDeviation={5} />
           <feComponentTransfer>
             <feFuncR
@@ -124,7 +120,7 @@ export default function GoldenCrystalPhyllotaxic({
               r={c.r}
               cx={c.x}
               cy={c.y}
-              fill={oklch(0.5, 0.37, hueStart + (360 / count) * i).hex()}
+              fill={oklch(0.25, 0.37, hueStart + (360 / count) * i).hex()}
               stroke={oklch(0.99, 0.37, hueStart + (360 / count) * i).hex()}
             />
           ))}
@@ -153,7 +149,7 @@ export default function GoldenCrystalPhyllotaxic({
             cx={c.x}
             cy={c.y}
             fill='none'
-            stroke={oklch(1, 0.37, 90).hex()}
+            stroke={oklch(1, 0.37, 70).hex()}
             strokeWidth={2}
           />
         ))}
