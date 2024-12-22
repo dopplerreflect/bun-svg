@@ -1,6 +1,3 @@
 node_modules/
-images/*.png
-images/*.svg
-images/printful.com.templates
-
+images/
 config.json

@@ -67,22 +67,23 @@ console.info(`Loading "${modulePath}"`);
 const module = await import(modulePath);
 const SVG = module.default;
 
-const filePath = `./images/${SVG.name}`;
+const svgPath = `./images/svg/${SVG.name}.svg`;
+const pngPath = `./images/png/${SVG.name}.png`;
 
 const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
 
-await Bun.write(`${filePath}.svg`, svg);
+await Bun.write(svgPath, svg);
 
 async function renderToPNG() {
   const { stdout, stderr, exitCode } =
-    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${filePath}.png ${filePath}.svg`;
+    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
   console.log(stdout.toString());
   if (exitCode) console.log(exitCode, stderr.toString());
 }
 async function setDesktopBackground() {
   const { stdout, stderr, exitCode } =
     // await $`swww img -o ${options.output} -t top --resize=fit --transition-duration 1 ${filePath}.png`;
-    await $`swww img -o ${options.output} -t top --resize fit --transition-duration 1 ${filePath}.png`;
+    await $`swww img -o ${options.output} -t top --resize fit --transition-duration 1 ${pngPath}`;
   if (exitCode) console.log(stderr.toString());
 }
 
