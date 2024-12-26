@@ -14,7 +14,7 @@ type Props = {
   width?: number;
   height?: number;
 };
-export default function Mtn({ width = 1080, height = 1080 }: Props) {
+export default function Fanfare({ width = 1920, height = 1080 }: Props) {
   const count = 10;
   const radii = goldenRadii((height / 4) * 0.95, 4);
   const angles = anglesArray(count);
