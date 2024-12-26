@@ -1,10 +1,6 @@
-type LinearGradientStop = {
-  offset: number;
-  stopColor: string;
-};
 type LinearGradientProps = {
   id: string;
-  stops: LinearGradientStop[];
+  stops: GradientStop[];
 };
 
 type Props = LinearGradientProps & React.SVGProps<SVGLinearGradientElement>;
