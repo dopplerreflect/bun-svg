@@ -70,24 +70,29 @@ const SVG = module.default;
 const svgPath = `./images/svg/${SVG.name}.svg`;
 const pngPath = `./images/png/${SVG.name}.png`;
 
+console.time("renderSVG");
 const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
+console.timeEnd("renderSVG");
 
+console.time("write svgPath");
 await Bun.write(svgPath, svg);
+console.timeEnd("write svgPath");
 
 async function renderToPNG() {
+  console.time("convert pngPath");
   const { stdout, stderr, exitCode } =
     await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
-  console.log(stdout.toString());
   if (exitCode) console.log(exitCode, stderr.toString());
+  console.timeEnd("convert pngPath");
 }
 async function setDesktopBackground() {
   const { stdout, stderr, exitCode } =
-    // await $`swww img -o ${options.output} -t top --resize=fit --transition-duration 1 ${filePath}.png`;
     await $`swww img -o ${options.output} -t top --resize fit --transition-duration 1 ${pngPath}`;
   if (exitCode) console.log(stderr.toString());
 }
 
 await renderToPNG();
+
 if (options["render-to-desktop"]) {
   try {
     await setDesktopBackground();

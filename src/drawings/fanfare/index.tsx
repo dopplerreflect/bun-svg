@@ -16,30 +16,51 @@ import {
 } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
-type Props = {
-  width?: number;
-  height?: number;
-};
-export default function Fanfare({ width = 1920, height = 1080 }: Props) {
-  const count = 10;
-  const radii = goldenRadii((height / 4) * 0.95, 4);
-  const angles = anglesArray(count);
-  const circles = goldenCircles(radii, angles);
-  const phylo = phylotaxis(
-    2 ** 12,
-    Math.sqrt((width / 2) ** 2 + (height / 2) ** 2),
-  ).filter(
+const width = 1920;
+const height = 1080;
+const count = 10;
+const radii = goldenRadii((height / 4) * 0.95, 4);
+const angles = anglesArray(count);
+const circles = goldenCircles(radii, angles);
+
+const PhyloStarfield = ({
+  width,
+  height,
+  density,
+}: {
+  width: number;
+  height: number;
+  density: number;
+}) => {
+  console.time("phylo");
+  const phylo = phylotaxis(density, Math.hypot(width / 2, height / 2)).filter(
     p =>
-      Math.sqrt(p.x ** 2 + p.y ** 2) > 1 &&
-      Math.abs(p.x) < width / 2 + width * 0.03 &&
-      Math.abs(p.y) < height / 2 + height * 0.03,
+      Math.hypot(p.x, p.y) > 1 &&
+      Math.abs(p.x) < width / 2 + width * 0.06 &&
+      Math.abs(p.y) < height / 2 + height * 0.06,
   );
+  console.timeEnd("phylo");
+  console.time("phyloCircles");
   const phyloCircles: Circle[] = [{ r: 1, ...phylo[0] }];
   phylo.forEach(p => {
     const nearest = findNearest(p, phyloCircles) as Circle;
     const distance = calculateDistance(p, nearest);
     phyloCircles.push({ r: distance - nearest.r, ...p });
   });
+  console.timeEnd("phyloCircles");
+
+  console.time("phyloStarfield");
+  const phyloStarfield = phyloCircles.map((c, i) => (
+    <polygon
+      key={i}
+      points={starPoints(c)}
+    />
+  ));
+  console.timeEnd("phyloStarfield");
+
+  return phyloStarfield;
+};
+export default function Fanfare() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -86,24 +107,47 @@ export default function Fanfare({ width = 1920, height = 1080 }: Props) {
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
+        <g id='phylo-starfield'>
+          <PhyloStarfield
+            {...{ width, height }}
+            density={2 ** 10}
+          />
+        </g>
+        <mask id='phylo-mask'>
+          <use
+            href='#phylo-starfield'
+            fill='white'
+          />
+        </mask>
+        <filter id='colors'>
+          <feTurbulence
+            type='fractalNoise'
+            baseFrequency={0.005}
+          />
+          <feColorMatrix
+            values='0.5 0 0 0 0
+                    0 0.05 0 0 0
+                    0 0 1 0 0
+                    1 1 1 1 1'
+          />
+        </filter>
       </defs>
       <Background
         {...{ width, height }}
         fill='url(#bg-gradient)'
       />
-      <g
-        id='phylo'
-        filter='url(#glow)'
-      >
-        {phyloCircles.map((c, i) => (
-          <polygon
-            key={i}
-            points={starPoints(c)}
-            fill={oklch(1, 0, 0).alpha(0.5).hex()}
-            stroke='none'
-          />
-        ))}
-      </g>
+      <Background
+        {...{ width, height }}
+        filter='url(#colors)'
+        mask='url(#phylo-mask)'
+        // fill='url(#bg-gradient)'
+        // fill='black'
+      />
+      <use
+        href='#phylo-starfield'
+        stroke={oklch(1, 0.37, 300).hex()}
+        fill='none'
+      />
       <g
         id='darken'
         style={{ fillOpacity: 0.5 }}
