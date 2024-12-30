@@ -102,6 +102,10 @@ export default function Fanfare() {
               intercept={0.2}
             />
           </feComponentTransfer>
+          <feColorMatrix
+            type='saturate'
+            values='1.5'
+          />
           <feMerge>
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
@@ -110,7 +114,7 @@ export default function Fanfare() {
         <g id='phylo-starfield'>
           <PhyloStarfield
             {...{ width, height }}
-            density={2 ** 10}
+            density={2 ** 11}
           />
         </g>
         <mask id='phylo-mask'>
@@ -121,14 +125,20 @@ export default function Fanfare() {
         </mask>
         <filter id='colors'>
           <feTurbulence
+            seed={4}
+            numOctaves={4}
             type='fractalNoise'
-            baseFrequency={0.005}
+            baseFrequency={"0.005"}
           />
           <feColorMatrix
-            values='0.5 0 0 0 0
-                    0 0.05 0 0 0
-                    0 0 1 0 0
-                    1 1 1 1 1'
+            values='1 0 0 0.0 0
+                    0 1 0 0.0 0
+                    0 0 1 0.0 0
+                    1 1 1 1.0 0'
+          />
+          <feColorMatrix
+            type='saturate'
+            values='5'
           />
         </filter>
       </defs>
@@ -140,17 +150,16 @@ export default function Fanfare() {
         {...{ width, height }}
         filter='url(#colors)'
         mask='url(#phylo-mask)'
-        // fill='url(#bg-gradient)'
-        // fill='black'
       />
       <use
         href='#phylo-starfield'
-        stroke={oklch(1, 0.37, 300).hex()}
+        stroke='white'
         fill='none'
+        filter='url(#glow)'
       />
       <g
         id='darken'
-        style={{ fillOpacity: 0.5 }}
+        style={{ fillOpacity: 0.5, fill: oklch(0.0, 0.37, 300).hex() }}
       >
         {angles.map((a, i) => {
           const c: Circle = { r: radii[0], ...radialPoint(a, radii[0]) };
@@ -193,7 +202,7 @@ export default function Fanfare() {
                   y1={l[0].y}
                   x2={l[1].x}
                   y2={l[1].y}
-                  stroke={oklch(0.5, 0.37, (120 / radii.length) * j - 60).hex()}
+                  stroke={oklch(0.7, 0.37, (120 / radii.length) * j - 60).hex()}
                 />
               )),
             )}
