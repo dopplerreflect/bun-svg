@@ -178,7 +178,7 @@ export default function Fanfare() {
         radius={radii[0] * 2}
         geometryOptions={{ rotate: -90, center: { x: 0, y: 0 } }}
         fill={oklch(0.5, 0.37, 300).hex()}
-        stroke='white'
+        stroke='yellow'
         strokeWidth={5}
       />
       <g style={{ display: "inline" }}>
