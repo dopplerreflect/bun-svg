@@ -1,5 +1,6 @@
 import Background from "$components/Background";
 import RadialGradient from "$components/gradients/RadialGradient";
+import { Star } from "$components/Star";
 import {
   anglesArray,
   calculateDistance,
@@ -159,7 +160,7 @@ export default function Fanfare() {
       />
       <g
         id='darken'
-        style={{ fillOpacity: 0.5, fill: oklch(0.0, 0.37, 300).hex() }}
+        style={{ fillOpacity: 0.75, fill: oklch(0.0, 0.37, 300).hex() }}
       >
         {angles.map((a, i) => {
           const c: Circle = { r: radii[0], ...radialPoint(a, radii[0]) };
@@ -173,6 +174,13 @@ export default function Fanfare() {
           );
         })}
       </g>
+      <Star
+        radius={radii[0] * 2}
+        geometryOptions={{ rotate: -90, center: { x: 0, y: 0 } }}
+        fill={oklch(0.5, 0.37, 300).hex()}
+        stroke='white'
+        strokeWidth={5}
+      />
       <g style={{ display: "inline" }}>
         <g filter='url(#glow)'>
           {radii.map((r, i) =>
