@@ -115,7 +115,7 @@ export default function Fanfare() {
         <g id='phylo-starfield'>
           <PhyloStarfield
             {...{ width, height }}
-            density={2 ** 11}
+            density={2 ** 12}
           />
         </g>
         <mask id='phylo-mask'>
@@ -129,7 +129,7 @@ export default function Fanfare() {
             seed={4}
             numOctaves={4}
             type='fractalNoise'
-            baseFrequency={"0.005"}
+            baseFrequency={"0.01"}
           />
           <feColorMatrix
             values='1 0 0 0.0 0
@@ -145,7 +145,8 @@ export default function Fanfare() {
       </defs>
       <Background
         {...{ width, height }}
-        fill='url(#bg-gradient)'
+        // fill='url(#bg-gradient)'
+        fill='black'
       />
       <Background
         {...{ width, height }}
@@ -174,16 +175,16 @@ export default function Fanfare() {
           );
         })}
       </g>
-      <Star
-        radius={radii[0] * 2}
-        geometryOptions={{ rotate: -90, center: { x: 0, y: 0 } }}
-        fill={oklch(0.5, 0.37, 300).hex()}
-        stroke='yellow'
-        strokeWidth={5}
-      />
       <g style={{ display: "inline" }}>
         <g filter='url(#glow)'>
-          {radii.map((r, i) =>
+          <Star
+            radius={radii[0] * 2}
+            geometryOptions={{ rotate: -90, center: { x: 0, y: 0 } }}
+            fill={oklch(0.25, 0.37, 300).hex()}
+            stroke={oklch(1, 0.37, 90).hex()}
+            strokeWidth={5}
+          />
+          {[...radii].reverse().map((r, i) =>
             chordMatrix(angles, [r + radii[0]]).map((l, j) => (
               <line
                 key={j}
@@ -191,13 +192,15 @@ export default function Fanfare() {
                 y1={l[0].y}
                 x2={l[1].x}
                 y2={l[1].y}
-                stroke={oklch(1, 0.37, (240 / radii.length) * i + 90).hex()}
+                stroke={oklch(1, 0.37, (240 / radii.length) * i - 90).hex()}
+                strokeWidth={2}
               />
             )),
           )}
         </g>
         <g filter='url(#glow)'>
-          {radii
+          {[...radii]
+            .reverse()
             .map((r, i) => chordLength(degreesToRadians(180 - 360 / count), r))
             .map((r, j) =>
               chordMatrix(
@@ -210,7 +213,8 @@ export default function Fanfare() {
                   y1={l[0].y}
                   x2={l[1].x}
                   y2={l[1].y}
-                  stroke={oklch(0.7, 0.37, (120 / radii.length) * j - 60).hex()}
+                  stroke={oklch(1, 0.37, (120 / radii.length) * j + 60).hex()}
+                  strokeWidth={2}
                 />
               )),
             )}
