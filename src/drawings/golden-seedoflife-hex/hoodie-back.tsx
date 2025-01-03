@@ -116,7 +116,7 @@ export default function HoodieBack({ width = size, height = size }: Props) {
       />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='hoodie_back_template'
+          image='all-over_print_hoodie/hoodie_back_template'
           {...{ width, height, viewBoxOffset }}
         />
       )}

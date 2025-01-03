@@ -3,14 +3,11 @@ import config from "$config";
 
 import PrintfulTemplate from "@dopplerreflect/printful-templates";
 
-type Props = {
-  width?: number;
-  height?: number;
-};
-const size = 6000;
-const scale = 0.3;
-const strokeWidth = size * scale * 0.000925;
-export default function HoodieHood({ width = size, height = size }: Props) {
+const width = 5550;
+const height = 6300;
+const scale = 0.5;
+const strokeWidth = width * scale * 0.000925;
+export default function JerseyYoke() {
   const viewBoxOffset = { x: 0, y: 0 };
   return (
     <svg
@@ -20,7 +17,7 @@ export default function HoodieHood({ width = size, height = size }: Props) {
       <Rays {...{ width, height, viewBoxOffset, strokeWidth }} />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='all-over_print_hoodie/hoodie_hood_template'
+          image='hockey_fan_jersey/Hockey_jersey_customer_template_yoke'
           {...{ width, height, viewBoxOffset }}
         />
       )}

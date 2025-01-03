@@ -23,7 +23,7 @@ export default function HoodieFrontPocket({
       <Rays {...{ width, height, viewBoxOffset, strokeWidth }} />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='hoodie_front_template'
+          image='all-over_print_hoodie/hoodie_front_pocket_template'
           {...{ width, height, viewBoxOffset }}
         />
       )}

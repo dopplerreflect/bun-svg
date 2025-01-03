@@ -27,7 +27,7 @@ export default function HoodieLeftSleeve({
       />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='hoodie_left_sleeve_template'
+          image='all-over_print_hoodie/hoodie_left_sleeve_template'
           {...{ width, height, viewBoxOffset }}
         />
       )}

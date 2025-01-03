@@ -12,18 +12,20 @@ type Props = {
   width?: number;
   height?: number;
 };
-const size = 6000;
-const scale = 0.3;
-const strokeWidth = size * scale * 0.000925;
+const width = 5550;
+const height = 6300;
+const scale = 0.5;
+const strokeWidth = width * scale * 0.000925;
 const phi = PHI - 1;
-export default function HoodieFront({ width = size, height = size }: Props) {
+
+export default function JerseyBack() {
   const figSize = width * 0.25 * scale;
   const radii = [...Array(3).keys()].map(i => figSize * phi ** i);
   const angles = anglesArray(6);
   const circles = circleArray(angles, radii);
   const lines = lineArray(angles, radii);
 
-  const viewBoxOffset = { x: 0, y: size * 0.15 };
+  const viewBoxOffset = { x: 0, y: height * -0.01 };
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -116,7 +118,7 @@ export default function HoodieFront({ width = size, height = size }: Props) {
       />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='all-over_print_hoodie/hoodie_front_template'
+          image='hockey_fan_jersey/Hockey_jersey_customer_template_back'
           {...{ width, height, viewBoxOffset }}
         />
       )}
