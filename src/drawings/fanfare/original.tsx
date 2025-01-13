@@ -17,10 +17,11 @@ import {
 } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
-const scale = 0.5;
+const scale = 1;
+const strokeWidthScale = 0.45; // comparing 19.2" to 42"
 
-const width = 4320 * scale;
-const height = 4320 * scale;
+const width = 19.2 * 150 * scale;
+const height = 10.8 * 150 * scale;
 const count = 10;
 const radii = goldenRadii((height / 4) * 0.95, 4);
 const angles = anglesArray(count);
@@ -85,9 +86,9 @@ export default function Fanfare() {
         <filter id='glow'>
           <feMorphology
             operator={"dilate"}
-            radius={4 * scale}
+            radius={3 * scale * strokeWidthScale}
           />
-          <feGaussianBlur stdDeviation={24 * scale} />
+          <feGaussianBlur stdDeviation={24 * scale * strokeWidthScale} />
           <feComponentTransfer>
             <feFuncR
               type='linear'
@@ -129,9 +130,9 @@ export default function Fanfare() {
         <filter id='colors'>
           <feTurbulence
             seed={4}
-            numOctaves={4}
+            numOctaves={1}
             type='fractalNoise'
-            baseFrequency={(0.001 / scale).toString()}
+            baseFrequency={(0.001 / scale / strokeWidthScale).toString()}
           />
           <feColorMatrix
             values='1 0 0 0.0 0
@@ -156,9 +157,10 @@ export default function Fanfare() {
       />
       <use
         href='#phylo-starfield'
-        stroke='white'
+        stroke={oklch(0.33, 0.37, 300).hex()}
+        strokeWidth={8 * strokeWidthScale}
         fill='none'
-        filter='url(#glow)'
+        // filter='url(#glow)'
       />
       <g
         id='darken'
@@ -183,7 +185,7 @@ export default function Fanfare() {
             geometryOptions={{ rotate: -90, center: { x: 0, y: 0 } }}
             fill={oklch(0.25, 0.37, 300).hex()}
             stroke={oklch(1, 0.37, 90).hex()}
-            strokeWidth={20 * scale}
+            strokeWidth={15 * scale * strokeWidthScale}
           />
           {[...radii].reverse().map((r, i) =>
             chordMatrix(angles, [r + radii[0]]).map((l, j) => (
@@ -194,7 +196,7 @@ export default function Fanfare() {
                 x2={l[1].x}
                 y2={l[1].y}
                 stroke={oklch(1, 0.37, (240 / radii.length) * i - 90).hex()}
-                strokeWidth={8 * scale}
+                strokeWidth={6 * scale * strokeWidthScale}
               />
             )),
           )}
@@ -215,7 +217,7 @@ export default function Fanfare() {
                   x2={l[1].x}
                   y2={l[1].y}
                   stroke={oklch(1, 0.37, (120 / radii.length) * j + 60).hex()}
-                  strokeWidth={8 * scale}
+                  strokeWidth={6 * scale * strokeWidthScale}
                 />
               )),
             )}
@@ -228,7 +230,7 @@ export default function Fanfare() {
               cx={c.x}
               cy={c.y}
               stroke={oklch(1, 0.1, 300).hex()}
-              strokeWidth={12 * scale}
+              strokeWidth={9 * scale * strokeWidthScale}
               fill='none'
             />
           ))}
@@ -240,7 +242,7 @@ export default function Fanfare() {
             cx={c.x}
             cy={c.y}
             stroke={oklch(1, 0.37, 300).hex()}
-            strokeWidth={scale}
+            strokeWidth={3 * scale * strokeWidthScale}
             fill='none'
           />
         ))}
