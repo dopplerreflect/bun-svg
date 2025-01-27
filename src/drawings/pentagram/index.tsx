@@ -1,5 +1,6 @@
 import { anglesArray, radialPointString, PHI } from "@dopplerreflect/geometry";
-import { Background, LinearGradient } from "$components/all";
+import Background from "$components/Background";
+import LinearGradient from "$components/gradients/LinearGradient";
 import HighlightFilter from "./highlightFilter";
 import { oklch } from "chroma-js";
 

@@ -1,4 +1,4 @@
-import { Background } from "$components/all";
+import Background from "$components/Background";
 import { oklch } from "chroma-js";
 import { anglesArray, PHI } from "@dopplerreflect/geometry";
 import DecagonCrystal from "./decagon-crystal";
