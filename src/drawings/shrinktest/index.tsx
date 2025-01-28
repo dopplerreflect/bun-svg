@@ -1,40 +1,11 @@
 import Background from "$components/Background";
-import { phylotaxis, polygon } from "@dopplerreflect/geometry";
+import {
+  phylotaxis,
+  shrinkPolygon,
+  polygonPointString,
+} from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
-type Point = { x: number; y: number };
-type Polygon = Point[];
-
-function shrinkPolygon(polygon: Polygon, percentage: number): Polygon {
-  // Calculate the centroid of the polygon
-  const centroid: Point = polygon.reduce(
-    (acc, point) => {
-      acc.x += point.x;
-      acc.y += point.y;
-      return acc;
-    },
-    { x: 0, y: 0 },
-  );
-
-  centroid.x /= polygon.length;
-  centroid.y /= polygon.length;
-
-  // Shrink each point toward the centroid
-  const shrinkFactor = 1 - percentage / 100;
-
-  return polygon.map(point => ({
-    x: centroid.x + (point.x - centroid.x) * shrinkFactor,
-    y: centroid.y + (point.y - centroid.y) * shrinkFactor,
-  }));
-}
-
-const pointsToString = (points: Point[]): string =>
-  points.map(p => `${p.x} ${p.y}`).join(" ");
-
-type Props = {
-  width?: number;
-  height?: number;
-};
 export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
   const phyloPoints = phylotaxis(
     2 ** 9,
@@ -45,15 +16,12 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
 
   const polygons = phyloPoints
     .slice(0, phyloPoints.length - 34)
-    .map(
-      (p, i) =>
-        [
-          p,
-          phyloPoints[i + 13],
-          phyloPoints[i + 34],
-          phyloPoints[i + 21],
-        ] as Polygon,
-    )
+    .map((p, i) => [
+      p,
+      phyloPoints[i + 13],
+      phyloPoints[i + 34],
+      phyloPoints[i + 21],
+    ])
     .map(p => shrinkPolygon(p, 15));
 
   const polygons2 = polygons.map(p => shrinkPolygon(p, 61.8));
@@ -86,7 +54,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
         {polygons.map((p, i) => (
           <polygon
             key={i}
-            points={pointsToString(p)}
+            points={polygonPointString(p)}
             stroke={oklch(0.5, 0.37, 300).hex()}
             strokeWidth={3}
             fill={oklch(0.85, 0.37, 150 - (150 / polygons.length) * i).hex()}
@@ -97,7 +65,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
         {polygons2.map((p, i) => (
           <polygon
             key={i}
-            points={pointsToString(p)}
+            points={polygonPointString(p)}
             stroke='black'
             strokeWidth={3}
             fill={oklch(0.99, 0.37, 270 - (150 / polygons.length) * i).hex()}
