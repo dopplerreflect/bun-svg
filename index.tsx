@@ -27,6 +27,11 @@ const { values: options, positionals } = parseArgs({
       type: "boolean",
       default: config["render-to-desktop"] ?? false,
     },
+    "render-to-png": {
+      short: "p",
+      type: "boolean",
+      default: config["render-to-png"] ?? false,
+    },
   },
   allowPositionals: true,
 });
@@ -91,7 +96,11 @@ async function setDesktopBackground() {
   if (exitCode) console.log(stderr.toString());
 }
 
-await renderToPNG();
+if (options["render-to-png"]) {
+  try {
+    await renderToPNG();
+  } catch (e) {}
+}
 
 if (options["render-to-desktop"]) {
   try {
