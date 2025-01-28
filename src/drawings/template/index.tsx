@@ -1,7 +1,3 @@
-type Props = {
-  width?: number;
-  height?: number;
-};
 export default function Template({ width = 1920, height = 1080 }: Props) {
   return (
     <svg
