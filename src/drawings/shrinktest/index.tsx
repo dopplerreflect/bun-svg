@@ -1,10 +1,12 @@
 import Background from "$components/Background";
+import HexPattern from "$components/HexPattern";
+import { Star } from "$components/Star";
 import {
   phylotaxis,
   shrinkPolygon,
   polygonPointString,
 } from "@dopplerreflect/geometry";
-import { oklch } from "chroma-js";
+import chroma, { oklch } from "chroma-js";
 
 export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
   const phyloPoints = phylotaxis(
@@ -22,7 +24,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
       phyloPoints[i + 34],
       phyloPoints[i + 21],
     ])
-    .map(p => shrinkPolygon(p, 15));
+    .map(p => shrinkPolygon(p, 33));
 
   const polygons2 = polygons.map(p => shrinkPolygon(p, 61.8));
 
@@ -45,19 +47,30 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
             stdDeviation={3}
           />
         </filter>
+        <HexPattern
+          id='hexpattern'
+          radius={8}
+          fill='none'
+          stroke={oklch(0.5, 0.37, 300).hex()}
+        />
       </defs>
       <Background
         {...{ width, height }}
-        fill={oklch(0.75, 0.37, 240).hex()}
+        fill={oklch(0.05, 0.37, 240).hex()}
+      />
+      <Background
+        {...{ width, height }}
+        fill='url(#hexpattern)'
+        filter='url(#glow)'
       />
       <g filter='url(#shadow)'>
         {polygons.map((p, i) => (
           <polygon
             key={i}
             points={polygonPointString(p)}
-            stroke={oklch(0.5, 0.37, 300).hex()}
             strokeWidth={3}
-            fill={oklch(0.85, 0.37, 150 - (150 / polygons.length) * i).hex()}
+            stroke={oklch(0.5, 0.37, 150 - (360 / polygons.length) * i).hex()}
+            fill={oklch(1, 0.37, 150 - (360 / polygons.length) * i).hex()}
           />
         ))}
       </g>
@@ -66,26 +79,26 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
           <polygon
             key={i}
             points={polygonPointString(p)}
-            stroke='black'
             strokeWidth={3}
-            fill={oklch(0.99, 0.37, 270 - (150 / polygons.length) * i).hex()}
+            stroke={oklch(
+              1 - (1 / 21) * (i % 21),
+              0.37,
+              (360 / 13) * (i % 13),
+            ).hex()}
+            fill={oklch((1 / 21) * (i % 21), 0.37, (360 / 13) * (i % 13)).hex()}
           />
         ))}
       </g>
-      <g filter='url(#shadow)'>
-        {phyloPoints2.map((p, i) => (
-          <circle
-            key={i}
-            cx={p.x}
-            cy={p.y}
-            r={5}
-            fill={oklch(
-              0.85,
-              0.37,
-              150 - (150 / phyloPoints2.length) * i,
-            ).hex()}
-          />
-        ))}
+      <g
+        filter='url(#shadow)'
+        style={{ display: "block" }}
+      >
+        <Star
+          radius={(height / 2) * 0.618}
+          geometryOptions={{}}
+          fill={chroma("white").alpha(0.75).hex()}
+          stroke='black'
+        />
       </g>
     </svg>
   );
