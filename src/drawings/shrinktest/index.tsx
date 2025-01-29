@@ -8,7 +8,12 @@ import {
 import DrLogo from "$drawings/dr-logo/simple";
 import { oklch } from "chroma-js";
 
-export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
+const scale = 1;
+
+export default function ShrinkTest({
+  width = 1920 * scale,
+  height = 1080 * scale,
+}: Props) {
   const phyloPoints = phylotaxis(
     2 ** 9,
     Math.hypot(width / 2, height / 2) * 1.2,
@@ -33,7 +38,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
     >
       <defs>
         <filter id='glow'>
-          <feGaussianBlur stdDeviation={3} />
+          <feGaussianBlur stdDeviation={3 * scale} />
           <feMerge>
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
@@ -41,15 +46,16 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
         </filter>
         <filter id='shadow'>
           <feDropShadow
-            dy='5'
-            stdDeviation={3}
+            dy={5 * scale}
+            stdDeviation={3 * scale}
           />
         </filter>
         <HexPattern
           id='hexpattern'
-          radius={8}
+          radius={8 * scale}
           fill='none'
           stroke={oklch(0.75, 0.37, 150).hex()}
+          strokeWidth={1 * scale}
         />
       </defs>
       <Background
@@ -66,7 +72,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
           <polygon
             key={i}
             points={polygonPointString(p)}
-            strokeWidth={3}
+            strokeWidth={3 * scale}
             stroke={oklch(0.5, 0.37, 150 - (360 / polygons.length) * i).hex()}
             fill={oklch(1, 0.37, 150 - (360 / polygons.length) * i).hex()}
           />
@@ -77,7 +83,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
           <polygon
             key={i}
             points={polygonPointString(p)}
-            strokeWidth={3}
+            strokeWidth={3 * scale}
             stroke={oklch(
               1 - (1 / 21) * (i % 21),
               0.37,
@@ -93,7 +99,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
         fill='white'
         fillOpacity={0.66}
         stroke='black'
-        strokeWidth={3}
+        strokeWidth={3 * scale}
       />
       <g
         filter='url(#shadow)'
