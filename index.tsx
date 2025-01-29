@@ -36,8 +36,6 @@ const { values: options, positionals } = parseArgs({
   allowPositionals: true,
 });
 
-// console.log(JSON.stringify(options));
-
 const drawings = await readdir("./src/drawings");
 
 if (options.list) {
@@ -75,37 +73,55 @@ const SVG = module.default;
 const svgPath = `./images/svg/${SVG.name}.svg`;
 const pngPath = `./images/png/${SVG.name}.png`;
 
-console.time("renderSVG");
-const svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" });
-console.timeEnd("renderSVG");
+let svg: string = "";
 
-console.time("write svgPath");
-await Bun.write(svgPath, svg);
-console.timeEnd("write svgPath");
+const renderSVG = async () =>
+  (svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" }));
 
-async function renderToPNG() {
-  console.time("convert pngPath");
+const writeSvgPath = async () => await Bun.write(svgPath, svg);
+
+const renderToPNG = async () => {
   const { stdout, stderr, exitCode } =
     await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
   if (exitCode) console.log(exitCode, stderr.toString());
-  console.timeEnd("convert pngPath");
-}
-async function setDesktopBackground() {
+};
+
+const setDesktopBackground = async () => {
   const { stdout, stderr, exitCode } =
     await $`swww img -o ${options.output} -t top --resize fit --transition-duration 1 ${pngPath}`;
   if (exitCode) console.log(stderr.toString());
-}
+};
 
-if (options["render-to-png"]) {
-  try {
-    await renderToPNG();
-  } catch (e) {}
-}
+(async () => {
+  const svg = await timedAsync("renderSVG", renderSVG);
+  await timedAsync("write svgPath", writeSvgPath);
 
-if (options["render-to-desktop"]) {
-  try {
-    await setDesktopBackground();
-  } catch (e) {}
-}
+  if (options["render-to-png"]) {
+    await timedAsync("convert pngPath", renderToPNG);
+  }
+
+  if (options["render-to-desktop"]) {
+    await timedAsync("setDesktopBackground", setDesktopBackground);
+  }
+
+  console.info(`${new Date()}: Rendered: ${SVG.name}`);
+})();
 
 console.info(`${new Date()}: Rendered: ${SVG.name}`);
+
+async function timedAsync<T>(
+  description: string,
+  asyncFunction: () => Promise<T>,
+): Promise<T> {
+  const startTime = performance.now();
+
+  try {
+    const result = await asyncFunction();
+    const endTime = performance.now();
+    console.log(`${description}: ${endTime - startTime}ms`);
+    return result;
+  } catch (error) {
+    console.error(`Error during ${description}:`, error);
+    throw error;
+  }
+}
