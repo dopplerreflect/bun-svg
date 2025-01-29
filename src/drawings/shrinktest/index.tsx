@@ -1,21 +1,18 @@
 import Background from "$components/Background";
 import HexPattern from "$components/HexPattern";
-import { Star } from "$components/Star";
 import {
   phylotaxis,
   shrinkPolygon,
   polygonPointString,
 } from "@dopplerreflect/geometry";
 import DrLogo from "$drawings/dr-logo/simple";
-import chroma, { oklch } from "chroma-js";
+import { oklch } from "chroma-js";
 
 export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
   const phyloPoints = phylotaxis(
     2 ** 9,
     Math.hypot(width / 2, height / 2) * 1.2,
   );
-
-  const phyloPoints2 = phylotaxis(2 ** 9, 100);
 
   const polygons = phyloPoints
     .slice(0, phyloPoints.length - 34)
