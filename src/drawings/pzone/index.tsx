@@ -6,9 +6,9 @@ import {
   polygonPointString,
 } from "@dopplerreflect/geometry";
 import DrLogo from "$drawings/dr-logo/simple";
-import chroma, { oklch } from "chroma-js";
+import { oklch } from "chroma-js";
 
-const scale = 0.5;
+const scale = 1;
 
 export default function Pzone({
   width = 1920 * scale,
