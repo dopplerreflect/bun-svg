@@ -6,6 +6,7 @@ import {
   shrinkPolygon,
   polygonPointString,
 } from "@dopplerreflect/geometry";
+import DrLogo from "$drawings/dr-logo/simple";
 import chroma, { oklch } from "chroma-js";
 
 export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
@@ -24,7 +25,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
       phyloPoints[i + 34],
       phyloPoints[i + 21],
     ])
-    .map(p => shrinkPolygon(p, 33));
+    .map(p => shrinkPolygon(p, 25));
 
   const polygons2 = polygons.map(p => shrinkPolygon(p, 61.8));
 
@@ -35,7 +36,7 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
     >
       <defs>
         <filter id='glow'>
-          <feGaussianBlur stdDeviation={5} />
+          <feGaussianBlur stdDeviation={3} />
           <feMerge>
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
@@ -51,12 +52,12 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
           id='hexpattern'
           radius={8}
           fill='none'
-          stroke={oklch(0.5, 0.37, 300).hex()}
+          stroke={oklch(0.75, 0.37, 150).hex()}
         />
       </defs>
       <Background
         {...{ width, height }}
-        fill={oklch(0.05, 0.37, 240).hex()}
+        fill={oklch(0.05, 0.17, 300).hex()}
       />
       <Background
         {...{ width, height }}
@@ -89,16 +90,19 @@ export default function ShrinkTest({ width = 1920, height = 1080 }: Props) {
           />
         ))}
       </g>
+      <circle
+        filter='url(#shadow)'
+        r={(height / 2) * 0.618 ** 3}
+        fill='white'
+        fillOpacity={0.66}
+        stroke='black'
+        strokeWidth={3}
+      />
       <g
         filter='url(#shadow)'
-        style={{ display: "block" }}
+        transform={`translate(${-width / 8} ${-height / 8}) scale(0.25)`}
       >
-        <Star
-          radius={(height / 2) * 0.618}
-          geometryOptions={{}}
-          fill={chroma("white").alpha(0.75).hex()}
-          stroke='black'
-        />
+        <DrLogo />
       </g>
     </svg>
   );

@@ -1,10 +1,6 @@
 import { oklch } from "chroma-js";
 import { anglesArray, PHI, radialPointString } from "@dopplerreflect/geometry";
 
-type Props = {
-  width?: number;
-  height?: number;
-};
 export default function DrLogo({ width = 3000, height = 3000 }: Props) {
   const phi = PHI - 1;
   const radii = [...Array(4).keys()].map(i => (height / 2) * 0.75 * phi ** i);
