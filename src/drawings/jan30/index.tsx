@@ -56,8 +56,14 @@ export default function Jan30({
     >
       <defs>
         <filter id='glow'>
-          <feGaussianBlur stdDeviation={5 * scale} />
+          <feDropShadow
+            stdDeviation={10}
+            dy={15}
+            result='shadow'
+          />
+          <feGaussianBlur stdDeviation={9 * scale} />
           <feMerge>
+            <feMergeNode in='shadow' />
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
           </feMerge>
@@ -84,12 +90,10 @@ export default function Jan30({
       <Background
         {...{ width, height }}
         fill='url(#hexpattern)'
-        filter='url(#glow)'
       />
       <Background
         {...{ width, height }}
         fill='url(#hexpattern2)'
-        filter='url(#glow)'
       />
       <g
         id='filled'
@@ -120,7 +124,7 @@ export default function Jan30({
             cy={c.y}
             fill='none'
             stroke='white'
-            strokeWidth={2 * scale}
+            strokeWidth={c.r * 0.025 * scale}
           />
         ))}
       </g>
