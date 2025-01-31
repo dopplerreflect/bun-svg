@@ -1,4 +1,5 @@
 import Background from "$components/Background";
+import RadialGradient from "$components/gradients/RadialGradient";
 import HexPattern from "$components/HexPattern";
 import {
   anglesArray,
@@ -18,37 +19,42 @@ export default function Jan30({
   const angles = anglesArray(10);
   const radii = goldenRadii((height / 2) * 0.48, 4);
   const circles = goldenCircles(radii, angles).sort((a, b) => b.r - a.r);
-  const weavePath = [
-    "M",
-    radialPointString(angles[9], radii[2], {
-      center: radialPoint(angles[1], radii[0]),
-    }),
-    `A ${radii[2]} ${radii[2]} 0 0 1`,
-    radialPointString(angles[9], radii[3], {
-      center: radialPoint(angles[2], radii[0]),
-    }),
-    `A ${radii[3]} ${radii[3]} 0 0 0`,
-    radialPointString(angles[5], radii[3], {
-      center: radialPoint(angles[2], radii[0]),
-    }),
-    `A ${radii[2]} ${radii[2]} 0 0 0`,
-    radialPointString(angles[9], radii[2], {
-      center: radialPoint(angles[3], radii[0]),
-    }),
-    `A ${radii[2]} ${radii[2]} 0 0 1`,
-    radialPointString(angles[9], radii[2], {
-      center: radialPoint(angles[2], radii[0]),
-    }),
-    `A ${radii[3]} ${radii[3]} 0 1 0`,
-    radialPointString(angles[8], radii[3], {
-      center: radialPoint(angles[1], radii[0]),
-    }),
-    `A ${radii[2]} ${radii[2]} 0 0 0`,
-    radialPointString(angles[9], radii[2], {
-      center: radialPoint(angles[1], radii[0]),
-    }),
-    "Z",
-  ].join(" ");
+  const weavePath = [0, 72, 144, 216, 288]
+    .map(a =>
+      [
+        "M",
+        radialPointString(angles[9] + a, radii[2], {
+          center: radialPoint(angles[1] + a, radii[0]),
+        }),
+        `A ${radii[2]} ${radii[2]} 0 0 1`,
+        radialPointString(angles[9] + a, radii[3], {
+          center: radialPoint(angles[2] + a, radii[0]),
+        }),
+        `A ${radii[3]} ${radii[3]} 0 0 0`,
+        radialPointString(angles[5] + a, radii[3], {
+          center: radialPoint(angles[2] + a, radii[0]),
+        }),
+        `A ${radii[2]} ${radii[2]} 0 0 0`,
+        radialPointString(angles[9] + a, radii[2], {
+          center: radialPoint(angles[3] + a, radii[0]),
+        }),
+        `A ${radii[2]} ${radii[2]} 0 0 1`,
+        radialPointString(angles[9] + a, radii[2], {
+          center: radialPoint(angles[2] + a, radii[0]),
+        }),
+        `A ${radii[3]} ${radii[3]} 0 1 0`,
+        radialPointString(angles[8] + a, radii[3], {
+          center: radialPoint(angles[1] + a, radii[0]),
+        }),
+        `A ${radii[2]} ${radii[2]} 0 0 0`,
+        radialPointString(angles[9] + a, radii[2], {
+          center: radialPoint(angles[1] + a, radii[0]),
+        }),
+        "Z",
+      ].join(" "),
+    )
+    .join(" ");
+
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -57,35 +63,49 @@ export default function Jan30({
       <defs>
         <filter id='glow'>
           <feDropShadow
-            stdDeviation={10}
+            stdDeviation={5}
             dy={15}
             result='shadow'
           />
-          <feGaussianBlur stdDeviation={9 * scale} />
+          <feGaussianBlur stdDeviation={6 * scale} />
           <feMerge>
             <feMergeNode in='shadow' />
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
+        <RadialGradient
+          id='gradient1'
+          stops={[
+            { offset: 61, stopColor: chroma("black").alpha(0.25).hex() },
+            { offset: 100, stopColor: chroma("white").alpha(0.25).hex() },
+          ]}
+        />
+        <RadialGradient
+          id='gradient2'
+          stops={[
+            { offset: 61, stopColor: chroma("white").alpha(0.25).hex() },
+            { offset: 100, stopColor: chroma("black").alpha(0.25).hex() },
+          ]}
+        />
         <HexPattern
           id='hexpattern'
           radius={height / 55}
           fill='none'
-          stroke={oklch(0.95, 0.37, 90).hex()}
+          stroke={oklch(1, 0.37, 90).hex()}
           strokeWidth={8 * scale}
         />
         <HexPattern
           id='hexpattern2'
           radius={height / 55}
           fill='none'
-          stroke={oklch(0.95, 0.37, 60).hex()}
+          stroke={oklch(1, 0.37, 60).hex()}
           strokeWidth={3 * scale}
         />
       </defs>
       <Background
         {...{ width, height }}
-        fill={oklch(0.25, 0.37, 60).hex()}
+        fill={oklch(0.5, 0.37, 90).hex()}
       />
       <Background
         {...{ width, height }}
@@ -132,32 +152,19 @@ export default function Jan30({
         id='weave'
         filter='url(#glow)'
       >
-        {angles.map(
-          (a, i) =>
-            i % 2 === 0 && (
-              <path
-                key={i}
-                d={weavePath}
-                fill={chroma("white").alpha(0.5).hex()}
-                stroke='white'
-                strokeWidth={2 * scale}
-                transform={`rotate(${a - 18})`}
-              />
-            ),
-        )}
-        {angles.map(
-          (a, i) =>
-            i % 2 === 1 && (
-              <path
-                key={i}
-                d={weavePath}
-                fill={chroma("black").alpha(0.5).hex()}
-                stroke='white'
-                strokeWidth={2 * scale}
-                transform={`rotate(${a - 18})`}
-              />
-            ),
-        )}
+        <path
+          d={weavePath}
+          stroke='white'
+          strokeWidth={3 * scale}
+          fill='url(#gradient1)'
+        />
+        <path
+          d={weavePath}
+          stroke='white'
+          strokeWidth={3 * scale}
+          fill='url(#gradient2)'
+          transform='rotate(36)'
+        />
       </g>
     </svg>
   );
