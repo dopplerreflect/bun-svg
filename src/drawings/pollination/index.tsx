@@ -12,7 +12,7 @@ import chroma, { oklch } from "chroma-js";
 
 const scale = 1;
 
-export default function Jan30({
+export default function Pollination({
   width = 1920 * scale,
   height = 1080 * scale,
 }: Props) {
