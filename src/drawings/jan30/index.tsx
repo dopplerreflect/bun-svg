@@ -92,28 +92,53 @@ export default function Jan30({
           id='hexpattern'
           radius={height / 55}
           fill='none'
-          stroke={oklch(1, 0.37, 90).hex()}
+          stroke={oklch(1, 0.37, 60).hex()}
           strokeWidth={8 * scale}
         />
         <HexPattern
           id='hexpattern2'
           radius={height / 55}
           fill='none'
-          stroke={oklch(1, 0.37, 60).hex()}
+          stroke={oklch(0.75, 0.37, 90).hex()}
           strokeWidth={3 * scale}
         />
+        <filter id='lighting'>
+          <feSpecularLighting
+            specularExponent={9}
+            specularConstant={2.0}
+            lightingColor={oklch(1, 0.37, 60).hex()}
+            surfaceScale={1}
+            result='light'
+          >
+            <fePointLight
+              x={0}
+              y={0}
+              z={height / 8}
+            />
+          </feSpecularLighting>
+          <feComposite
+            in='SourceGraphic'
+            operator='arithmetic'
+            k1={1}
+            k2={0}
+            k3={1}
+            k4={0}
+          />
+        </filter>
       </defs>
       <Background
         {...{ width, height }}
-        fill={oklch(0.5, 0.37, 90).hex()}
+        fill={oklch(0.85, 0.37, 90).hex()}
       />
       <Background
         {...{ width, height }}
         fill='url(#hexpattern)'
+        filter='url(#lighting)'
       />
       <Background
         {...{ width, height }}
         fill='url(#hexpattern2)'
+        filter='url(#lighting)'
       />
       <g
         id='filled'
