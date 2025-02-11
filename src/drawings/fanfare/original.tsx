@@ -1,5 +1,6 @@
 import Background from "$components/Background";
 import RadialGradient from "$components/gradients/RadialGradient";
+import HexPattern from "$components/HexPattern";
 import { Star } from "$components/Star";
 import {
   anglesArray,
@@ -145,10 +146,19 @@ export default function Fanfare() {
             values='5'
           />
         </filter>
+        <HexPattern
+          id='hexpattern'
+          radius={10 * scale}
+          stroke={oklch(0.75, 0.37, 300).hex()}
+        />
       </defs>
       <Background
         {...{ width, height }}
         fill='black'
+      />
+      <Background
+        {...{ width, height }}
+        fill='url(#hexpattern)'
       />
       <Background
         {...{ width, height }}
