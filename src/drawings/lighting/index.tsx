@@ -23,6 +23,7 @@ export default function Lighting({ width = 1920, height = 1080 }: Props) {
             lightingColor={oklch(0.5, 0.37, 270).hex()}
             surfaceScale={radii[2]}
             diffuseConstant={4}
+            result='light'
           >
             <fePointLight
               x={0}
@@ -58,7 +59,7 @@ export default function Lighting({ width = 1920, height = 1080 }: Props) {
             r={c.r}
             cx={c.x}
             cy={c.y}
-            fill='white'
+            fill={oklch(0.5, 0.37, 270).hex()}
             fillOpacity={0.5}
           />
         ))}
