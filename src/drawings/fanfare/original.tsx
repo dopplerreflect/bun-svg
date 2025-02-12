@@ -70,6 +70,7 @@ export default function Fanfare() {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+      colorInterpolationFilters='sRGB'
     >
       <defs>
         <RadialGradient
@@ -148,8 +149,9 @@ export default function Fanfare() {
         </filter>
         <HexPattern
           id='hexpattern'
-          radius={10 * scale}
-          stroke={oklch(0.75, 0.37, 300).hex()}
+          radius={13 * scale}
+          stroke={oklch(0.25, 0.37, 300).hex()}
+          strokeWidth={5 * scale}
         />
       </defs>
       <Background

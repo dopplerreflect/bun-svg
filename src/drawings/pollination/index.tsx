@@ -59,6 +59,7 @@ export default function Pollination({
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+      colorInterpolationFilters='sRGB'
     >
       <defs>
         <filter id='glow'>

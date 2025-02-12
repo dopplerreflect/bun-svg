@@ -29,6 +29,7 @@ export default function GoldenSeedOfLifeHex({
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2 + viewBoxOffset.x} ${-height / 2 + viewBoxOffset.y} ${width} ${height}`}
+      colorInterpolationFilters='sRGB'
     >
       <defs>
         <mask id='g-mask'>
@@ -117,7 +118,7 @@ export default function GoldenSeedOfLifeHex({
       />
       {config.printfulTemplate && (
         <PrintfulTemplate
-          image='hoodie_front_template'
+          image='all-over_print_hoodie/hoodie_front_template'
           {...{ width, height, viewBoxOffset }}
         />
       )}

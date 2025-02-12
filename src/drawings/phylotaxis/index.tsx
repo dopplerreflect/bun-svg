@@ -54,6 +54,7 @@ export default function GoldenCrystalPhyllotaxic({
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
       width={width}
       height={height}
+      colorInterpolationFilters='sRGB'
     >
       <defs>
         <filter id='blur'>

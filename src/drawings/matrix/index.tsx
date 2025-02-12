@@ -24,6 +24,7 @@ export default function Matrix({ width = 1920 * 1, height = 1080 * 1 }: Props) {
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
       width={width * scale}
       height={height * scale}
+      colorInterpolationFilters='sRGB'
     >
       <defs>
         <filter id='cheap-glow'>

@@ -3,9 +3,6 @@ import {
   anglesArray,
   goldenCircles,
   goldenRadii,
-  phi,
-  PHI,
-  radialPoint,
 } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
@@ -43,6 +40,10 @@ export default function Lighting({ width = 1920, height = 1080 }: Props) {
           </feMerge>
         </filter>
       </defs>
+      <Background
+        {...{ width, height }}
+        fill='black'
+      />
       <g
         id='gcircles'
         filter='url(#lighting)'
