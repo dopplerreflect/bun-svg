@@ -78,7 +78,10 @@ let svg: string = "";
 const renderSVG = async () =>
   (svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" }));
 
-const writeSvgPath = async () => await Bun.write(svgPath, svg);
+const writeSvgPath = async () => {
+  await Bun.write(svgPath, svg);
+  await Bun.write("./images/svg/current.svg", svg);
+};
 
 const renderToPNG = async () => {
   const { stdout, stderr, exitCode } =
