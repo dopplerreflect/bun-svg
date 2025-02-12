@@ -31,15 +31,7 @@ export default function AcidFlower({ width = 1920, height = 1080 }: Props) {
     phylotaxicCircles.push({ i, r: distance - nearestCircle.r, ...p });
   });
 
-  function edgeFilter(c: Circle) {
-    return (
-      Math.sqrt(c.x ** 2 + c.y ** 2) > 1 &&
-      Math.abs(c.x) < width / 2 + width * 0.08 &&
-      Math.abs(c.y) < height / 2 + height * 0.08
-    );
-  }
-
-  const hues = anglesArray(34, -60);
+  const hues = anglesArray(8, -60);
 
   return (
     <svg
@@ -55,25 +47,67 @@ export default function AcidFlower({ width = 1920, height = 1080 }: Props) {
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
+        <radialGradient id='rg'>
+          {[...Array(10).keys()].reverse().map(i => (
+            <stop
+              key={i}
+              offset={`${Math.round((1 - i / 10) * 100)}%`}
+              stopColor='white'
+              stopOpacity={Math.sin(i * 10 * (Math.PI / 180)).toFixed(1)}
+            />
+          ))}
+        </radialGradient>
+        <filter id='light'>
+          <feSpecularLighting
+            lightingColor='white'
+            surfaceScale={10}
+            specularConstant={3}
+            specularExponent={4}
+          >
+            <fePointLight
+              x={0}
+              y={0}
+              z={height / 8}
+            />
+          </feSpecularLighting>
+          <feGaussianBlur stdDeviation={3} />
+        </filter>
       </defs>
       <Background
         {...{ width, height }}
-        fill={oklch(0.01, 0.37, 300).hex()}
+        fill={oklch(0.0, 0.0, 300).hex()}
       />
-      <g filter='url(#glow)'>
+      <g filter='url(#light)'>
         {phylotaxicCircles.map((c, i) => (
           <circle
             key={i}
             cx={c.x}
             cy={c.y}
             r={c.r - 3}
-            stroke={oklch(0.9, 0.37, hues[c.i % hues.length] + i).hex()}
-            strokeWidth={2}
+            fill='url(#rg)'
+          />
+        ))}
+      </g>
+      <g
+        filter='url(#glow)'
+        style={{ display: "inline" }}
+      >
+        {phylotaxicCircles.map((c, i) => (
+          <circle
+            key={i}
+            cx={c.x}
+            cy={c.y}
+            r={c.r - 3}
+            stroke={oklch(0.5, 0.37, hues[c.i % hues.length] + 0).hex()}
+            strokeWidth={1}
             fill={
-              i % 3 === 0
-                ? oklch(0.33, 0.37, hues[c.i % hues.length] + 270 + i).hex()
+              i % 1 === 0
+                ? oklch(0.75, 0.37, hues[c.i % hues.length] + 0)
+                    .alpha(0.25)
+                    .hex()
                 : "none"
             }
+            // fill='none'
           />
         ))}
       </g>
