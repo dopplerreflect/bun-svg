@@ -55,7 +55,7 @@ export default function ShrinkTest({
           id='hexpattern'
           radius={8 * scale}
           fill='none'
-          stroke={oklch(0.75, 0.37, 150).hex()}
+          stroke={oklch(0.75, 0.37, 300).hex()}
           strokeWidth={1 * scale}
         />
       </defs>
