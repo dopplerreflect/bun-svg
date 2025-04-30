@@ -12,25 +12,30 @@ const { values: options, positionals } = parseArgs({
       type: "boolean",
       default: false,
     },
-    "use-latest": {
+    latest: {
       short: "l",
       type: "boolean",
-      default: config["use-latest"] ?? true,
+      default: config.latest ?? true,
     },
     output: {
       short: "o",
       type: "string",
       default: config.output ?? "eDP-1",
     },
-    "render-to-desktop": {
+    desktop: {
+      short: "d",
+      type: "boolean",
+      default: config.desktop ?? false,
+    },
+    rasterize: {
       short: "r",
       type: "boolean",
-      default: config["render-to-desktop"] ?? false,
+      default: config.rasterize ?? false,
     },
-    "render-to-png": {
-      short: "p",
-      type: "boolean",
-      default: config["render-to-png"] ?? false,
+    format: {
+      short: "f",
+      type: "string",
+      default: config.format ?? "png",
     },
   },
   allowPositionals: true,
@@ -50,7 +55,7 @@ const mostRecentlyEditedDrawing = async () => {
 };
 let drawing = positionals[2];
 
-if (!drawing && options["use-latest"]) {
+if (!drawing && options.latest) {
   drawing = await mostRecentlyEditedDrawing();
   console.info(
     `Did not specify drawing. Using  most recently edited drawing '${drawing}'.`,
@@ -84,8 +89,9 @@ const writeSvgPath = async () => {
 };
 
 const renderToPNG = async () => {
+  console.log("rasterizing to png");
   const { stdout, stderr, exitCode } =
-    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
+    await $`rsvg-convert --dpi-x 200 --dpi-y 200 -o ${pngPath} ${svgPath}`;
   if (exitCode) console.log(exitCode, stderr.toString());
 };
 
@@ -99,11 +105,11 @@ const setDesktopBackground = async () => {
   const svg = await timedAsync("renderSVG", renderSVG);
   await timedAsync("write svgPath", writeSvgPath);
 
-  if (options["render-to-png"]) {
-    await timedAsync("convert pngPath", renderToPNG);
+  if (options.rasterize) {
+    await timedAsync("rasterize", renderToPNG);
   }
 
-  if (options["render-to-desktop"]) {
+  if (options.rasterize && options.desktop) {
     await timedAsync("setDesktopBackground", setDesktopBackground);
   }
 

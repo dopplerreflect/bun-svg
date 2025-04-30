@@ -10,18 +10,33 @@ import {
 import type { Line } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
-export default function Raytest({ width = 1920, height = 1080 }: Props) {
-  const scale = 0.5; // smaller for faster rendering
+// women's short sleeve vneck: 4600 x 5600 200dpi
 
-  const r = (height / 2) * 0.95 * scale;
+export default function Raytest({ width = 4600, height = 5600 }: Props) {
+  const scale = 1; // smaller for faster rendering
+
+  const r = (width / 2) * 0.5 * scale;
+  const yOffset = -height * 0.033;
   const angles = anglesArray(20);
 
   const lineArray: Line[] = [
-    ...angles.map(a => [radialPoint(a, r), { x: 0, y: -r * phi ** 2 }] as Line),
-    ...angles.map(a => [radialPoint(a, r), { x: 0, y: r * phi ** 2 }] as Line),
+    ...angles.map(
+      a =>
+        [
+          radialPoint(a, r, { center: { x: 0, y: yOffset } }),
+          { x: 0, y: -r * phi ** 2 + yOffset },
+        ] as Line,
+    ),
+    ...angles.map(
+      a =>
+        [
+          radialPoint(a, r, { center: { x: 0, y: yOffset } }),
+          { x: 0, y: r * phi ** 2 + yOffset },
+        ] as Line,
+    ),
     [
-      { x: 0, y: -r * phi ** 2 },
-      { x: 0, y: r * phi ** 2 },
+      { x: 0, y: -r * phi ** 2 + yOffset },
+      { x: 0, y: r * phi ** 2 + yOffset },
     ],
   ];
 
@@ -165,7 +180,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         <filter id='RAYTEST-noise'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency={0.3 / scale}
+            baseFrequency={(0.3 / scale) * 0.25}
           />
           <feColorMatrix
             type='matrix'
@@ -178,14 +193,14 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         <filter id='crackedMud'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency={0.075 / scale}
+            baseFrequency={(0.075 / scale) * 0.25}
             numOctaves='1'
             result='turb'
           />
           <feDisplacementMap
             in='SourceGraphic'
             in2='turb'
-            scale={width * 2 * scale}
+            scale={width * 2 * scale * 2}
             xChannelSelector='R'
             yChannelSelector='G'
             result='displacement'
@@ -240,6 +255,8 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
       />
       <circle
         r={r}
+        cx={0}
+        cy={yOffset}
         filter='url(#RAYTEST-filter)'
         style={{
           fill: oklch(0.5, 0.24, 90).alpha(0.33).hex(),
