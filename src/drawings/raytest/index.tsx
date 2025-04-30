@@ -11,7 +11,9 @@ import type { Line } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
 export default function Raytest({ width = 1920, height = 1080 }: Props) {
-  const r = (height / 2) * 0.95;
+  const scale = 0.5; // smaller for faster rendering
+
+  const r = (height / 2) * 0.95 * scale;
   const angles = anglesArray(20);
 
   const lineArray: Line[] = [
@@ -103,7 +105,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
+      viewBox={`${(-width / 2) * scale} ${(-height / 2) * scale} ${width * scale} ${height * scale}`}
       colorInterpolationFilters='sRGB'
     >
       <defs>
@@ -126,8 +128,8 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
             in2='SourceGraphic'
             operator='in'
           />
-          <feGaussianBlur stdDeviation='5' />
-          <feOffset dy='10' />
+          <feGaussianBlur stdDeviation={5 * scale} />
+          <feOffset dy={10 * scale} />
           <feMerge>
             <feMergeNode />
             <feMergeNode in='SourceGraphic' />
@@ -137,7 +139,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
           <feMorphology
             in='SourceAlpha'
             operator='erode'
-            radius='3'
+            radius={3 * scale}
             result='smallErode'
           />
           <feFlood
@@ -152,7 +154,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
           <feMorphology
             in='SourceGraphic'
             operator='erode'
-            radius='5'
+            radius={5 * scale}
             result='bigErode'
           />
           <feMerge>
@@ -163,7 +165,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         <filter id='RAYTEST-noise'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency='0.3'
+            baseFrequency={0.3 / scale}
           />
           <feColorMatrix
             type='matrix'
@@ -176,14 +178,14 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         <filter id='crackedMud'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency='0.075'
+            baseFrequency={0.075 / scale}
             numOctaves='1'
             result='turb'
           />
           <feDisplacementMap
             in='SourceGraphic'
             in2='turb'
-            scale={width * 2}
+            scale={width * 2 * scale}
             xChannelSelector='R'
             yChannelSelector='G'
             result='displacement'
@@ -198,7 +200,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
           >
             <feDistantLight
               azimuth={90}
-              elevation={height}
+              elevation={height * scale}
             />
           </feDiffuseLighting>
           <feComposite
@@ -221,18 +223,18 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         </filter>
       </defs>
       <Background
-        width={width}
-        height={height}
+        width={width * scale}
+        height={height * scale}
         fill='url(#RAYTEST-lg)'
       />
       <Background
-        width={width}
-        height={height}
+        width={width * scale}
+        height={height * scale}
         filter='url(#RAYTEST-noise)'
       />
       <Background
-        width={width}
-        height={height}
+        width={width * scale}
+        height={height * scale}
         fill={oklch(0.75, 0.32, 90).hex()}
         filter='url(#crackedMud)'
       />
@@ -242,7 +244,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         style={{
           fill: oklch(0.5, 0.24, 90).alpha(0.33).hex(),
           stroke: oklch(0.25, 0.12, 60).alpha(1).hex(),
-          strokeWidth: 8,
+          strokeWidth: 8 * scale,
         }}
       />
       {polygonGroups.map((group, gi) => (
