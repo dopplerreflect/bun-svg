@@ -240,9 +240,9 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         r={r}
         filter='url(#RAYTEST-filter)'
         style={{
-          fill: oklch(0.5, 0.24, 90).alpha(0.5).hex(),
-          stroke: oklch(0.25, 0.12, 60).hex(),
-          strokeWidth: 2,
+          fill: oklch(0.5, 0.24, 90).alpha(0.33).hex(),
+          stroke: oklch(0.25, 0.12, 60).alpha(1).hex(),
+          strokeWidth: 8,
         }}
       />
       {polygonGroups.map((group, gi) => (
@@ -250,7 +250,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
           key={gi}
           style={{
             fill: oklch(
-              0.99 - (1 / (polygonGroups.length + 2)) * gi,
+              1 - (1 / (polygonGroups.length + 0)) * gi,
               0.12,
               60,
             ).hex(),
