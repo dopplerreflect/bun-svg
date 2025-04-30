@@ -113,7 +113,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         >
           <stop
             offset='0%'
-            stopColor={oklch(0.75, 0.12, 90).hex()}
+            stopColor={oklch(0.95, 0.12, 90).hex()}
           />
           <stop
             offset='100%'
@@ -141,7 +141,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
             result='smallErode'
           />
           <feFlood
-            floodColor={oklch(0.9, 0.12, 60).hex()}
+            floodColor={oklch(0.9, 0.32, 60).hex()}
             result='color'
           />
           <feComposite
@@ -163,18 +163,21 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
         <filter id='RAYTEST-noise'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency='0.26'
+            baseFrequency='0.3'
           />
           <feColorMatrix
-            type='saturate'
-            values='0'
+            type='matrix'
+            values='1 0 0 0 0
+                    0.5 0 0 0 0
+                    0.0 0 0 0 0
+                    0 0 0 1 0'
           />
         </filter>
         <filter id='crackedMud'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency='0.025'
-            numOctaves='3'
+            baseFrequency='0.075'
+            numOctaves='1'
             result='turb'
           />
           <feDisplacementMap
@@ -186,11 +189,11 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
             result='displacement'
           />
           <feConvolveMatrix
-            kernelMatrix='0 1 1 1 -5 1 0 1 0'
+            kernelMatrix='0 1 0 1 -5 0 1 0 1'
             result='edges'
           />
           <feDiffuseLighting
-            lightingColor={oklch(0.9, 0.12, 90).hex()}
+            lightingColor={oklch(0.8, 0.02, 90).hex()}
             result='light'
           >
             <feDistantLight
@@ -207,6 +210,14 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
             k3={0.25}
             k4={0.0}
           />
+          <feColorMatrix
+            type='matrix'
+            values='
+              1 0 0 0 0
+              0 0.75 0 0 0
+              0 0 0 0 0
+              0 0 0 0.35 0'
+          />
         </filter>
       </defs>
       <Background
@@ -222,7 +233,7 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
       <Background
         width={width}
         height={height}
-        fill={oklch(0.75, 0.12, 90).hex()}
+        fill={oklch(0.75, 0.32, 90).hex()}
         filter='url(#crackedMud)'
       />
       <circle
@@ -255,6 +266,25 @@ export default function Raytest({ width = 1920, height = 1080 }: Props) {
           ))}
         </g>
       ))}
+      {/* {lineArray.map((l, i) => (
+        <g key={i}>
+          <line
+            x1={l[0].x}
+            y1={l[0].y}
+            x2={l[1].x}
+            y2={l[1].y}
+            stroke='white'
+          />
+          <text
+            fontSize={"2em"}
+            fill='white'
+            x={midpoint(l).x}
+            y={midpoint(l).y}
+          >
+            {i}
+          </text>
+        </g>
+      ))} */}
     </svg>
   );
 }
