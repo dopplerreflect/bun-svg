@@ -5,14 +5,19 @@ import {
   phi,
   radialPoint,
   polygonFromIntersectionOfLines,
-  midpoint,
 } from "@dopplerreflect/geometry";
 import type { Line } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
+import DrLogo from "./dr-logo";
 
 // women's short sleeve vneck: 4600 x 5600 200dpi
 
-export default function Raytest({ width = 4600, height = 5600 }: Props) {
+const panel: "desktop" | "front" | "sleeve" | "back" = "desktop";
+
+export default function Raytest({
+  width = panel === "desktop" ? 1900 : 4600,
+  height = panel === "desktop" ? 1080 : 5600,
+}: Props) {
   const scale = 1; // smaller for faster rendering
 
   const r = (width / 2) * 0.5 * scale;
@@ -180,7 +185,7 @@ export default function Raytest({ width = 4600, height = 5600 }: Props) {
         <filter id='RAYTEST-noise'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency={(0.3 / scale) * 0.25}
+            baseFrequency={(0.3 / scale) * (panel === "desktop" ? 1 : 0.25)}
           />
           <feColorMatrix
             type='matrix'
@@ -193,14 +198,14 @@ export default function Raytest({ width = 4600, height = 5600 }: Props) {
         <filter id='crackedMud'>
           <feTurbulence
             type='fractalNoise'
-            baseFrequency={(0.075 / scale) * 0.25}
+            baseFrequency={(0.075 / scale) * (panel === "desktop" ? 1 : 0.25)}
             numOctaves='1'
             result='turb'
           />
           <feDisplacementMap
             in='SourceGraphic'
             in2='turb'
-            scale={width * 2 * scale * 2}
+            scale={width * 2 * scale * (panel === "desktop" ? 1 : 2)}
             xChannelSelector='R'
             yChannelSelector='G'
             result='displacement'
@@ -253,57 +258,50 @@ export default function Raytest({ width = 4600, height = 5600 }: Props) {
         fill={oklch(0.75, 0.32, 90).hex()}
         filter='url(#crackedMud)'
       />
-      <circle
-        r={r}
-        cx={0}
-        cy={yOffset}
-        filter='url(#RAYTEST-filter)'
-        style={{
-          fill: oklch(0.5, 0.24, 90).alpha(0.33).hex(),
-          stroke: oklch(0.25, 0.12, 60).alpha(1).hex(),
-          strokeWidth: 8 * scale,
-        }}
-      />
-      {polygonGroups.map((group, gi) => (
-        <g
-          key={gi}
-          style={{
-            fill: oklch(
-              1 - (1 / (polygonGroups.length + 0)) * gi,
-              0.12,
-              60,
-            ).hex(),
-            filter: "url(#RAYTEST-filter)",
-          }}
-        >
-          {group.map((points, i) => (
-            <polygon
-              key={i}
-              points={points}
-              filter='url(#RAYTEST-shrink)'
-            />
-          ))}
-        </g>
-      ))}
-      {/* {lineArray.map((l, i) => (
-        <g key={i}>
-          <line
-            x1={l[0].x}
-            y1={l[0].y}
-            x2={l[1].x}
-            y2={l[1].y}
-            stroke='white'
+      {panel === "front" ||
+        (panel === "desktop" && (
+          <circle
+            r={r}
+            cx={0}
+            cy={yOffset}
+            filter='url(#RAYTEST-filter)'
+            style={{
+              fill: oklch(0.5, 0.24, 90).alpha(0.33).hex(),
+              stroke: oklch(0.25, 0.12, 60).alpha(1).hex(),
+              strokeWidth: 8 * scale,
+            }}
           />
-          <text
-            fontSize={"2em"}
-            fill='white'
-            x={midpoint(l).x}
-            y={midpoint(l).y}
-          >
-            {i}
-          </text>
+        ))}
+      {panel === "front" ||
+        (panel === "desktop" &&
+          polygonGroups.map((group, gi) => (
+            <g
+              key={gi}
+              style={{
+                fill: oklch(
+                  1 - (1 / (polygonGroups.length + 0)) * gi,
+                  0.12,
+                  60,
+                ).hex(),
+                filter: "url(#RAYTEST-filter)",
+              }}
+            >
+              {group.map((points, i) => (
+                <polygon
+                  key={i}
+                  points={points}
+                  filter='url(#RAYTEST-shrink)'
+                />
+              ))}
+            </g>
+          )))}
+      {panel === "back" && (
+        <g
+          transform={`scale(0.25) translate(${(-width / 2) * scale} ${-height * 1.75 * scale})`}
+        >
+          <DrLogo />
         </g>
-      ))} */}
+      )}
     </svg>
   );
 }
