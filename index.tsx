@@ -91,7 +91,7 @@ const writeSvgPath = async () => {
 const renderToPNG = async () => {
   console.log("rasterizing to png");
   const { stdout, stderr, exitCode } =
-    await $`rsvg-convert --dpi-x 200 --dpi-y 200 -o ${pngPath} ${svgPath}`;
+    await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
   if (exitCode) console.log(exitCode, stderr.toString());
 };
 

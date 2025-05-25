@@ -3,8 +3,7 @@
   "module": "index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch ./index.tsx",
-    "preinstall": "cp -u ./config.json.example ./config.json"
+    "dev": "bun run --watch ./index.tsx"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -12,10 +11,12 @@
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.3.5",
     "prettier": "^3.4.2",
-    "@dopplerreflect/printful-templates": "link:@dopplerreflect/printful-templates"
+    "@dopplerreflect/printful-templates": "link:@dopplerreflect/printful-templates",
+    "@dopplerreflect/printify-templates": "link:@dopplerreflect/printify-templates"
   },
   "trustedDependencies": [
-    "@dopplerreflect/printful-templates"
+    "@dopplerreflect/printful-templates",
+    "@dopplerreflect/printify-templates"
   ],
   "peerDependencies": {
     "typescript": "^5.7.2"
