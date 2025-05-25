@@ -41,7 +41,7 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
         key={r}
         {...{ r }}
         stroke='white'
-        fill={oklch(1, 0, 0, 0.15).hex()}
+        fill={oklch(0, 0, 0, 0.15).hex()}
       />
     ));
   const Rays = () =>
@@ -56,7 +56,7 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
     <polygon
       points={starPoints}
       stroke='white'
-      fill={oklch(0, 0, 0, 0.5).hex()}
+      fill={oklch(1, 0, 0, 0.5).hex()}
     />
   );
   const D = (props: React.SVGProps<SVGPathElement>) => {
@@ -87,28 +87,28 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
     >
-      <Background
+      {/* <Background
         {...{ width, height }}
         fill={oklch(0, 0.2, 240).hex()}
-      />
+      /> */}
       <Circles />
       <Rays />
       <Star />
       <D
-        strokeWidth={radii[2] * phi ** 2}
+        strokeWidth={radii[2] * phi ** 1}
         stroke={oklch(1, 0.37, 270, 0.75).hex()}
       />
       <D
-        strokeWidth={radii[2] * phi ** 3}
+        strokeWidth={radii[2] * phi ** 2}
         stroke={oklch(0.5, 0.37, 270, 0.9).hex()}
       />
       <D strokeWidth={2} />
       <R
-        strokeWidth={radii[2] * phi ** 2}
+        strokeWidth={radii[2] * phi ** 1}
         stroke={oklch(1, 0.37, 90, 0.75).hex()}
       />
       <R
-        strokeWidth={radii[2] * phi ** 3}
+        strokeWidth={radii[2] * phi ** 2}
         stroke={oklch(0.75, 0.37, 90, 0.9).hex()}
       />
       <R strokeWidth={2} />
