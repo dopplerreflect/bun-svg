@@ -111,7 +111,6 @@ const Main = () => (
         />
       ))}
     </g>
-    <Logo size={1024} />
   </g>
 );
 function Collar() {
@@ -177,7 +176,7 @@ function Front() {
         filter='url(#glow)'
       />
       <Main />
-      <Logo size={768} />
+      <Logo size={1024} />
       {config.printfulTemplate && (
         <PrintifyTemplate
           {...{ width, height, viewBox }}
@@ -215,6 +214,7 @@ function Sleeve() {
         filter='url(#glow)'
       />
       <Main />
+      <Logo size={768} />
       {config.printfulTemplate && (
         <PrintifyTemplate
           {...{ width, height, viewBox }}
