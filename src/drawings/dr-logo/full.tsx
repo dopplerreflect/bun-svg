@@ -6,14 +6,12 @@ type Props = {
   width?: number;
   height?: number;
 };
-export default function DrLogo({ width = 1080, height = 1080 }: Props) {
+export default function DrLogo({ width = 1920, height = 1080 }: Props) {
   const phi = PHI - 1;
-  const radii = [...Array(4).keys()].map(i => (height / 2) * 0.75 * phi ** i);
+  const radii = [...Array(5).keys()].map(i => (height / 2) * 0.75 * phi ** i);
   const angles = anglesArray(30);
-  const starPoints = angles
-    .map((a, i) =>
-      radialPointString(angles[(i * 12) % angles.length], radii[0]),
-    )
+  const starPoints = [...Array(5).keys()]
+    .map(i => radialPointString(angles[(i * 12) % angles.length], radii[0]))
     .join(" ");
   const rayPaths = angles.map(
     a => `M${radialPointString(a, radii[2])} ${radialPointString(a, radii[1])}`,
@@ -36,11 +34,12 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
     "Z",
   ].join(" ");
   const Circles = () =>
-    radii.map(r => (
+    radii.slice(0, 4).map(r => (
       <circle
         key={r}
         {...{ r }}
         stroke='white'
+        strokeWidth={2}
         fill={oklch(0, 0, 0, 0.15).hex()}
       />
     ));
@@ -87,28 +86,28 @@ export default function DrLogo({ width = 1080, height = 1080 }: Props) {
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
     >
-      {/* <Background
+      <Background
         {...{ width, height }}
         fill={oklch(0, 0.2, 240).hex()}
-      /> */}
+      />
       <Circles />
       <Rays />
       <Star />
       <D
-        strokeWidth={radii[2] * phi ** 1}
+        strokeWidth={radii[3]}
         stroke={oklch(1, 0.37, 270, 0.75).hex()}
       />
       <D
-        strokeWidth={radii[2] * phi ** 2}
+        strokeWidth={radii[4]}
         stroke={oklch(0.5, 0.37, 270, 0.9).hex()}
       />
       <D strokeWidth={2} />
       <R
-        strokeWidth={radii[2] * phi ** 1}
+        strokeWidth={radii[3]}
         stroke={oklch(1, 0.37, 90, 0.75).hex()}
       />
       <R
-        strokeWidth={radii[2] * phi ** 2}
+        strokeWidth={radii[4]}
         stroke={oklch(0.75, 0.37, 90, 0.9).hex()}
       />
       <R strokeWidth={2} />
