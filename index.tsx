@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { $ } from "bun";
 import { parseArgs } from "util";
 import { readdir } from "node:fs/promises";
+import { optimize } from "svgo";
 import { format } from "prettier";
 import config from "./config.json";
 
@@ -83,6 +84,17 @@ let svg: string = "";
 const renderSVG = async () =>
   (svg = await format(renderToStaticMarkup(<SVG />), { parser: "html" }));
 
+const optimizeSVG = async () => {
+  const optimizedSVG = optimize(svg, {
+    path: `${svgPath.replace(/\.svg$/, ".optimized.svg")}`,
+  });
+  await Bun.write(
+    svgPath.replace(/\.svg$/, ".optimized.svg"),
+    optimizedSVG.data,
+  );
+  return optimizedSVG;
+};
+
 const writeSvgPath = async () => {
   await Bun.write(svgPath, svg);
   await Bun.write("./images/svg/current.svg", svg);
@@ -103,6 +115,9 @@ const setDesktopBackground = async () => {
 
 (async () => {
   const svg = await timedAsync("renderSVG", renderSVG);
+
+  await timedAsync("optimize svg", optimizeSVG);
+
   await timedAsync("write svgPath", writeSvgPath);
 
   if (options.rasterize) {

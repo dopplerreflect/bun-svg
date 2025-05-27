@@ -6,7 +6,7 @@ type Props = {
   width?: number;
   height?: number;
 };
-export default function DrLogo({ width = 1920, height = 1080 }: Props) {
+export default function DrLogo({ width = 1080, height = 1080 }: Props) {
   const phi = PHI - 1;
   const radii = [...Array(5).keys()].map(i => (height / 2) * 0.75 * phi ** i);
   const angles = anglesArray(30);
