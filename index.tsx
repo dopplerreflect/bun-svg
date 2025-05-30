@@ -109,7 +109,7 @@ const renderToPNG = async () => {
 
 const setDesktopBackground = async () => {
   const { stdout, stderr, exitCode } =
-    await $`swww img -o ${options.output} -t top --transition-duration 1 ${pngPath}`;
+    await $`swww img -o ${options.output} -t top --transition-duration 1 --resize fit ${pngPath}`;
   if (exitCode) console.log(stderr.toString());
 };
 

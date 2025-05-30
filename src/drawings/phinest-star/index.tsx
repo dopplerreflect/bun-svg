@@ -7,6 +7,7 @@ import {
   arrayMap,
   lineIntersection,
   midpoint,
+  PHI,
   phi,
   polygonFromIntersectionOfLines,
   radialPoint,
@@ -16,12 +17,14 @@ import {
   type Line,
   type Point,
 } from "@dopplerreflect/geometry";
+import config from "$config";
 
 const templates = products.mensSportsJerseyAOP.templates;
-const scale = 0.25;
+const scale = 1;
 
 const originalWidth = templates.front.width * scale;
-const originalHeight = templates.front.height;
+console.log(templates.front.width);
+const originalHeight = templates.front.height * scale;
 
 const radius = (originalWidth / 2) * 0.43;
 
@@ -193,7 +196,7 @@ export default function PhinestStarFront() {
             <stop
               offset={1}
               stopColor={oklch(
-                0.85,
+                1,
                 0.37,
                 300 + (90 / gradientParams.length) * i,
               ).hex()}
@@ -217,12 +220,59 @@ export default function PhinestStarFront() {
             fill='black'
           />
         </mask>
+        <mask id='starMask-reverse'>
+          <Background
+            {...{ width, height }}
+            vBox={vb}
+            fill='white'
+          />
+          <polygon
+            points={starPoints({ x: 0, y: 0, r: radii[0] })}
+            transform='rotate(-90)'
+            fill='black'
+          />
+          {/* <polygon
+            points={starPoints({ x: 0, y: 0, r: radii[3] })}
+            transform='rotate(90)'
+            fill='white'
+          /> */}
+        </mask>
+        <filter id='blur'>
+          <feGaussianBlur stdDeviation={5 * scale} />
+        </filter>
       </defs>
       <Background
         {...{ width, height }}
         vBox={vb}
         fill={oklch(0, 0.19, 300).hex()}
       />
+      <g
+        mask='url(#starMask-reverse)'
+        filter='url(#blur)'
+      >
+        <circle
+          r={radii[5] * phi}
+          fill='none'
+          stroke={oklch(0.5, 0.37, 300).hex()}
+          strokeWidth={3 * scale}
+        />
+        {anglesArray(120).map((a, i) => (
+          <path
+            key={i}
+            d={`M${radialPointString(a, radii[5] * phi ** 4)}L${radialPointString(a, radii[0] * PHI ** 3)}`}
+            stroke={oklch(0.33, 0.37, 300).hex()}
+            strokeWidth={15 * scale}
+          />
+        ))}
+        {anglesArray(120).map((a, i) => (
+          <path
+            key={i}
+            d={`M${radialPointString(a, radii[5] * phi)}L${radialPointString(a, radii[0] * PHI ** 3)}`}
+            stroke={oklch(1, 0.37, 300).hex()}
+            strokeWidth={3 * scale}
+          />
+        ))}
+      </g>
       <g
         id='circles'
         mask='url(#starMask)'
@@ -247,77 +297,87 @@ export default function PhinestStarFront() {
           />
         ))}
       </g>
-      <g
-        id='allLines'
-        style={{ display: "" }}
-      >
-        {allLines.map((l, i) => (
-          <g
-            key={i}
-            id={`line-${i}`}
-          >
-            <line
+      <g id='fiveStars'>
+        <g
+          id='allLines'
+          style={{ display: "" }}
+        >
+          {allLines.map((l, i) => (
+            <g
               key={i}
-              x1={l[0].x}
-              y1={l[0].y}
-              x2={l[1].x}
-              y2={l[1].y}
-              stroke={oklch(1.0, 0.37, 300).hex()}
-              strokeWidth={3 * scale}
-            />
-            <text
-              style={{ display: "none" }}
-              x={midpoint(l).x}
-              y={midpoint(l).y}
-              textAnchor='middle'
-              alignmentBaseline='middle'
-              fill='white'
-              fontSize={64}
-              fontWeight={"bold"}
+              id={`line-${i}`}
             >
-              {i}
-            </text>
-          </g>
-        ))}
-      </g>
-      <g
-        id='polygonGroups'
-        opacity={0.75}
-      >
-        {polygonGroups.map((pg, pgi) => (
-          <g
-            key={pgi}
-            fill={`url(#gradient-${pgi})`}
-          >
-            {pg.map((p, i) => (
-              <polygon
+              <line
                 key={i}
-                points={p}
-                filter='url(#shrink)'
-                // stroke={oklch(
-                //   0,
-                //   0.37,
-                //   300 + (90 / polygonGroups.length) * pgi,
-                // ).hex()}
-                // strokeWidth={1}
+                x1={l[0].x}
+                y1={l[0].y}
+                x2={l[1].x}
+                y2={l[1].y}
+                stroke={oklch(1.0, 0.37, 300).hex()}
+                strokeWidth={3 * scale}
               />
-            ))}
-          </g>
+              <text
+                style={{ display: "none" }}
+                x={midpoint(l).x}
+                y={midpoint(l).y}
+                textAnchor='middle'
+                alignmentBaseline='middle'
+                fill='white'
+                fontSize={64}
+                fontWeight={"bold"}
+              >
+                {i}
+              </text>
+            </g>
+          ))}
+        </g>
+        <g
+          id='polygonGroups'
+          opacity={0.75}
+        >
+          {polygonGroups.map((pg, pgi) => (
+            <g
+              key={pgi}
+              fill={`url(#gradient-${pgi})`}
+            >
+              {pg.map((p, i) => (
+                <polygon
+                  key={i}
+                  points={p}
+                  filter='url(#shrink)'
+                />
+              ))}
+            </g>
+          ))}
+        </g>
+        {[72, 144, 216, 288].map(i => (
+          <use
+            key={i}
+            href='#polygonGroups'
+            transform={`rotate(${i})`}
+          />
         ))}
       </g>
-      {[72, 144, 216, 288].map(i => (
-        <use
-          key={i}
-          href='#polygonGroups'
-          transform={`rotate(${i})`}
-        />
-      ))}
-      <PrinifyTemplate
-        width={width * scale}
-        height={height * scale}
-        viewBox={vb}
-        file={file}
+      <use
+        href='#fiveStars'
+        transform={`rotate(36) scale(${PHI ** 3})`}
       />
+      <use
+        href='#fiveStars'
+        transform={`rotate(36) scale(${phi ** 3})`}
+      />
+      <use
+        href='#fiveStars'
+        transform={`scale(${phi ** 6})`}
+      />
+      {config.printfulTemplate && (
+        <PrinifyTemplate
+          width={width * scale}
+          height={height * scale}
+          viewBox={vb}
+          file={file}
+        />
+      )}
     </svg>
   );
 }
