@@ -10,30 +10,25 @@ import {
   phi,
   polygonFromIntersectionOfLines,
   radialPoint,
+  radialPointString,
+  starPoints,
   type Circle,
   type Line,
   type Point,
 } from "@dopplerreflect/geometry";
 
 const templates = products.mensSportsJerseyAOP.templates;
+const scale = 0.25;
 
-const originalWidth = templates.front.width;
+const originalWidth = templates.front.width * scale;
 const originalHeight = templates.front.height;
 
-const radius = originalWidth / 2; //* 0.43;
+const radius = (originalWidth / 2) * 0.43;
 
-const radii = arrayMap(7, n => radius * phi ** n);
+const radii = arrayMap(6, n => radius * phi ** n);
 const circles: Circle[] = radii.map(r => ({ x: 0, y: 0, r }));
 const angles = anglesArray(30);
 
-const ShrinkFilter = () => (
-  <filter id='shrink'>
-    <feMorphology
-      operator='erode'
-      radius={5}
-    />
-  </filter>
-);
 const linesForAStar = (startRadiusIdx: number, startAngleIdx: number): Line[] =>
   [...Array(5).keys()]
     .map(i => [
@@ -145,10 +140,10 @@ const gradientParams: GradientParams[] = [
 export default function PhinestStarFront() {
   const { width, height, file } = templates.front;
   const vb = {
-    x: -width / 2,
-    y: -height / 2 + height * 0.0,
-    width,
-    height,
+    x: (-width * scale) / 2,
+    y: (-height * scale) / 2 + height * scale * 0.1,
+    width: width * scale,
+    height: height * scale,
   };
 
   return (
@@ -158,7 +153,29 @@ export default function PhinestStarFront() {
       colorInterpolationFilters='sRGB'
     >
       <defs>
-        <ShrinkFilter />
+        <filter id='shrink'>
+          <feMorphology
+            operator='erode'
+            radius={10 * scale}
+            result='shrunk'
+          />
+          <feGaussianBlur
+            stdDeviation={5 * scale}
+            in='SourceGraphic'
+          />
+          <feColorMatrix
+            values='
+            1 0 0 0.25 0
+            0 1 0 0.0 0
+            0 0 1 0.5 0
+            0 0 0 0.5 0
+          '
+          />
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in='shrunk' />
+          </feMerge>
+        </filter>
         {gradientParams.map((g, i) => (
           <radialGradient
             key={i}
@@ -176,63 +193,63 @@ export default function PhinestStarFront() {
             <stop
               offset={1}
               stopColor={oklch(
-                0.8,
+                0.85,
                 0.37,
                 300 + (90 / gradientParams.length) * i,
               ).hex()}
-              // stopColor='white'
             />
           </radialGradient>
         ))}
+        <mask id='starMask'>
+          <Background
+            {...{ width, height }}
+            vBox={vb}
+            fill='black'
+          />
+          <polygon
+            points={starPoints({ x: 0, y: 0, r: radii[0] })}
+            transform='rotate(-90)'
+            fill='white'
+          />
+          <polygon
+            points={starPoints({ x: 0, y: 0, r: radii[3] })}
+            transform='rotate(90)'
+            fill='black'
+          />
+        </mask>
       </defs>
       <Background
         {...{ width, height }}
         vBox={vb}
         fill={oklch(0, 0.19, 300).hex()}
       />
-      <g id='polygonGroups'>
-        {polygonGroups.map((pg, pgi) => (
-          <g
-            key={pgi}
-            fill={`url(#gradient-${pgi})`}
-          >
-            {pg.map((p, i) => (
-              <polygon
-                key={i}
-                points={p}
-                filter='url(#shrink)'
-                stroke={oklch(
-                  0,
-                  0.37,
-                  30 + (120 / polygonGroups.length) * pgi,
-                ).hex()}
-                strokeWidth={1}
-              />
-            ))}
-          </g>
+      <g
+        id='circles'
+        mask='url(#starMask)'
+      >
+        {circles.map((c, i) => (
+          <circle
+            key={i}
+            cx={c.x}
+            cy={c.y}
+            r={c.r}
+            fill='none'
+            stroke={oklch(0.5, 0.37, 300).hex()}
+            strokeWidth={3 * scale}
+          />
+        ))}
+        {angles.map((a, i) => (
+          <path
+            key={i}
+            d={`M0 0L${radialPointString(a, radii[0])}`}
+            stroke={oklch(0.5, 0.37, 300).hex()}
+            strokeWidth={3 * scale}
+          />
         ))}
       </g>
-      {[72, 144, 216, 288].map(i => (
-        <use
-          key={i}
-          href='#polygonGroups'
-          transform={`rotate(${i})`}
-        />
-      ))}
-      {circles.map((c, i) => (
-        <circle
-          cx={c.x}
-          cy={c.y}
-          r={c.r}
-          key={i}
-          fill='none'
-          stroke='none'
-          strokeWidth={1}
-        />
-      ))}
       <g
         id='allLines'
-        style={{ display: "none" }}
+        style={{ display: "" }}
       >
         {allLines.map((l, i) => (
           <g
@@ -245,8 +262,8 @@ export default function PhinestStarFront() {
               y1={l[0].y}
               x2={l[1].x}
               y2={l[1].y}
-              stroke={oklch(0.9, 0.37, 90).hex()}
-              strokeWidth={3}
+              stroke={oklch(1.0, 0.37, 300).hex()}
+              strokeWidth={3 * scale}
             />
             <text
               style={{ display: "none" }}
@@ -263,10 +280,44 @@ export default function PhinestStarFront() {
           </g>
         ))}
       </g>
-      {/* <PrinifyTemplate
-        {...{ width, height, file }}
+      <g
+        id='polygonGroups'
+        opacity={0.75}
+      >
+        {polygonGroups.map((pg, pgi) => (
+          <g
+            key={pgi}
+            fill={`url(#gradient-${pgi})`}
+          >
+            {pg.map((p, i) => (
+              <polygon
+                key={i}
+                points={p}
+                filter='url(#shrink)'
+                // stroke={oklch(
+                //   0,
+                //   0.37,
+                //   300 + (90 / polygonGroups.length) * pgi,
+                // ).hex()}
+                // strokeWidth={1}
+              />
+            ))}
+          </g>
+        ))}
+      </g>
+      {[72, 144, 216, 288].map(i => (
+        <use
+          key={i}
+          href='#polygonGroups'
+          transform={`rotate(${i})`}
+        />
+      ))}
+      <PrinifyTemplate
+        width={width * scale}
+        height={height * scale}
         viewBox={vb}
-      /> */}
+        file={file}
+      />
     </svg>
   );
 }
