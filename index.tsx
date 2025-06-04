@@ -102,6 +102,7 @@ const writeSvgPath = async () => {
 
 const renderToPNG = async () => {
   console.log("rasterizing to png");
+  await $`pkill rsvg-convert`; // in watch mode, we could spawn many of these, so kill any still-running ones since we're re-rendering
   const { stdout, stderr, exitCode } =
     await $`rsvg-convert --dpi-x 150 --dpi-y 150 -o ${pngPath} ${svgPath}`;
   if (exitCode) console.log(exitCode, stderr.toString());

@@ -19,7 +19,7 @@ import {
 } from "@dopplerreflect/geometry";
 import config from "$config";
 
-const templates = products.mensSportsJerseyAOP.templates;
+const templates = products.womensSportsJerseyAOP.templates;
 const scale = 1;
 
 const originalWidth = templates.front.width * scale;
@@ -140,11 +140,11 @@ const gradientParams: GradientParams[] = [
     fr: radiusToPoint(lineIntersection(allLines[30], allLines[49]) as Point),
   },
 ];
-export default function PhinestStarFront() {
+export default function PhinestStarFrontWomensJersey() {
   const { width, height, file } = templates.front;
   const vb = {
     x: (-width * scale) / 2,
-    y: (-height * scale) / 2 + height * scale * 0.1,
+    y: (-height * scale) / 2 + height * scale * 0.09,
     width: width * scale,
     height: height * scale,
   };
