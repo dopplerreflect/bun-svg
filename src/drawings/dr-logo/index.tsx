@@ -1,2 +1,2 @@
-import DrLogo from "./full";
+import DrLogo from "./simple";
 export default DrLogo;

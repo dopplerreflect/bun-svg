@@ -9,7 +9,7 @@ import {
 import { oklch } from "chroma-js";
 import config from "$config";
 import HexPattern from "$components/HexPattern";
-import DrLogoB64 from "./dr-logo.svg.b64.txt";
+import DrLogoB64 from "./dr-logo-simple.svg.b64.txt";
 
 export default Front;
 
@@ -17,8 +17,8 @@ const originalWidth = products.mensSportsJerseyAOP.templates.front.width;
 const originalHeight = products.mensSportsJerseyAOP.templates.front.height;
 
 const phyloPoints = phylotaxis(
-  768,
-  Math.hypot(originalWidth / 2, originalHeight / 2 + originalHeight * 0.15),
+  512,
+  Math.hypot(originalWidth / 2, originalHeight / 2 + originalHeight * 0.23),
 );
 const polygons = phyloPoints
   .slice(0, phyloPoints.length - 34)
@@ -153,7 +153,7 @@ function Front() {
   const { width, height, file } = products.mensSportsJerseyAOP.templates.front;
   const viewBox = {
     x: -width / 2,
-    y: -height / 2 + height * 0.1,
+    y: -height / 2 + height * 0.18,
     width,
     height,
   };
@@ -176,7 +176,7 @@ function Front() {
         filter='url(#glow)'
       />
       <Main />
-      <Logo size={1024} />
+      <Logo size={768} />
       {config.printfulTemplate && (
         <PrintifyTemplate
           {...{ width, height, viewBox }}
@@ -214,7 +214,7 @@ function Sleeve() {
         filter='url(#glow)'
       />
       <Main />
-      <Logo size={768} />
+      <Logo size={512} />
       {config.printfulTemplate && (
         <PrintifyTemplate
           {...{ width, height, viewBox }}

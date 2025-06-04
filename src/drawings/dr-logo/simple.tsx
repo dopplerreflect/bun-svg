@@ -1,7 +1,7 @@
 import { oklch } from "chroma-js";
 import { anglesArray, PHI, radialPointString } from "@dopplerreflect/geometry";
 
-export default function DrLogo({ width = 3000, height = 3000 }: Props) {
+export default function DrLogoSimple({ width = 1080, height = 1080 }: Props) {
   const phi = PHI - 1;
   const radii = [...Array(4).keys()].map(i => (height / 2) * 0.75 * phi ** i);
   const angles = anglesArray(30);
@@ -30,23 +30,6 @@ export default function DrLogo({ width = 3000, height = 3000 }: Props) {
     `L${radialPointString(angles[27], radii[2])}`,
     "Z",
   ].join(" ");
-  const Circles = () =>
-    radii.map(r => (
-      <circle
-        key={r}
-        {...{ r }}
-        stroke='white'
-        fill={oklch(1, 0, 0, 0.15).hex()}
-      />
-    ));
-  const Rays = () =>
-    rayPaths.map((d, i) => (
-      <path
-        key={i}
-        {...{ d }}
-        stroke='white'
-      />
-    ));
   const Star = () => (
     <polygon
       points={starPoints}
@@ -82,6 +65,29 @@ export default function DrLogo({ width = 3000, height = 3000 }: Props) {
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
     >
+      <defs>
+        <filter
+          id='shadow'
+          x={-width / 2}
+          y={-height / 2}
+          width={width}
+          height={height}
+        >
+          <feDropShadow
+            stdDeviation={5}
+            dx={0}
+            dy={5}
+          />
+        </filter>
+      </defs>
+      <circle
+        r={radii[0] + radii[3]}
+        fill='white'
+        fillOpacity={0.5}
+        stroke='black'
+        strokeWidth={radii[3] * phi ** 5}
+        filter='url(#shadow)'
+      />
       <path
         fill='black'
         fillRule='evenodd'
@@ -91,10 +97,12 @@ export default function DrLogo({ width = 3000, height = 3000 }: Props) {
       <D
         strokeWidth={radii[2] * phi ** 2}
         stroke='#3399ff'
+        filter='url(#shadow)'
       />
       <R
         strokeWidth={radii[2] * phi ** 2}
         stroke='#ffcc00'
+        filter='url(#shadow)'
       />
     </svg>
   );
