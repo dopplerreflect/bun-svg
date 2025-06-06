@@ -220,12 +220,12 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
               cx={c.x}
               cy={c.y}
               fill={oklch(
-                0.5,
+                0.66,
                 0.17,
                 120 - (60 / phyllotaxicCircles.length) * i,
               ).hex()}
               stroke={oklch(
-                0.5,
+                0.1,
                 0.37,
                 150 - (90 / phyllotaxicCircles.length) * i,
               ).hex()}
