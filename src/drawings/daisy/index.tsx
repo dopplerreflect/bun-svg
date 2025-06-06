@@ -197,36 +197,41 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
           />
         ))}
       </g>
-      {angles.map((a, i) => (
-        <use
-          key={i}
-          href='#petal'
-          stroke={oklch(0.5, 0.37, 61.85).hex()}
-          transform={`rotate(${a})`}
-        />
-      ))}
       <g
-        id='carpels'
-        filter='url(#c)'
+        id='daisy'
+        filter='url(#shadow)'
       >
-        {phyllotaxicCircles.map((c, i) => (
-          <circle
+        {angles.map((a, i) => (
+          <use
             key={i}
-            r={c.r}
-            cx={c.x}
-            cy={c.y}
-            fill={oklch(
-              0.5,
-              0.17,
-              120 - (60 / phyllotaxicCircles.length) * i,
-            ).hex()}
-            stroke={oklch(
-              0.5,
-              0.37,
-              150 - (90 / phyllotaxicCircles.length) * i,
-            ).hex()}
+            href='#petal'
+            stroke={oklch(0.5, 0.37, 61.85).hex()}
+            transform={`rotate(${a})`}
           />
         ))}
+        <g
+          id='carpels'
+          filter='url(#c)'
+        >
+          {phyllotaxicCircles.map((c, i) => (
+            <circle
+              key={i}
+              r={c.r}
+              cx={c.x}
+              cy={c.y}
+              fill={oklch(
+                0.5,
+                0.17,
+                120 - (60 / phyllotaxicCircles.length) * i,
+              ).hex()}
+              stroke={oklch(
+                0.5,
+                0.37,
+                150 - (90 / phyllotaxicCircles.length) * i,
+              ).hex()}
+            />
+          ))}
+        </g>
       </g>
     </svg>
   );
