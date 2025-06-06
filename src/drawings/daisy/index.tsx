@@ -26,6 +26,21 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
     phyllotaxicCircles.push({ r: distance - nearestCircle.r, ...p });
   });
 
+  const bgPhyllotaxicPoints = phylotaxis(
+    4096,
+    Math.hypot(width / 2, height / 2),
+  );
+  const bgPhyllotaxicCircles: Circle[] = [
+    { r: 0, ...(bgPhyllotaxicPoints.shift() as Point) },
+  ];
+  bgPhyllotaxicPoints.forEach((p, i) => {
+    const nearestCircle = findNearest(p, bgPhyllotaxicCircles) as Circle;
+    const distance = calculateDistance(p, nearestCircle);
+    bgPhyllotaxicCircles.push({ r: distance - nearestCircle.r, ...p });
+  });
+  const bgCircles = bgPhyllotaxicCircles.filter(
+    p => Math.hypot(p.x, p.y) > radii[1],
+  );
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -33,6 +48,13 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
       colorInterpolationFilters='sRGB'
     >
       <defs>
+        <filter id='glow'>
+          <feGaussianBlur stdDeviation={5} />
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in='SourceGraphic' />
+          </feMerge>
+        </filter>
         <linearGradient id='petalGradient'>
           <stop
             offset={0}
@@ -115,6 +137,66 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
         {...{ width, height }}
         fill={oklch(0, 0.37, 300).hex()}
       />
+      <g
+        id='bg0'
+        filter='url(#glow)'
+      >
+        {bgCircles.map((c, i) => (
+          <circle
+            key={i}
+            r={c.r * phi ** 2}
+            cx={c.x}
+            cy={c.y}
+            fill='none'
+            stroke={oklch(
+              i % 3 === 0 ? 0.5 : 0.95,
+              0.37,
+              360 - (120 / bgCircles.length) * i,
+            ).hex()}
+            strokeWidth={2}
+          />
+        ))}
+      </g>
+      <g
+        id='bg1'
+        filter='url(#glow)'
+      >
+        {bgCircles.map((c, i) => (
+          <circle
+            key={i}
+            r={c.r * phi}
+            cx={c.x}
+            cy={c.y}
+            fill='none'
+            stroke={oklch(
+              i % 5 === 0 ? 0.75 : 0.5,
+              0.37,
+              240 - (120 / bgCircles.length) * i,
+            ).hex()}
+            strokeWidth={2}
+          />
+        ))}
+      </g>
+      <g
+        id='bg2'
+        filter='url(#glow)'
+      >
+        {bgCircles.map((c, i) => (
+          <circle
+            key={i}
+            r={c.r}
+            cx={c.x}
+            cy={c.y}
+            fill='none'
+            stroke={oklch(
+              i % 3 === 0 ? 0.75 : 0.5,
+              0.37,
+              360 - (120 / bgCircles.length) * i,
+            ).hex()}
+            strokeWidth={2}
+          />
+        ))}
+      </g>
       {angles.map((a, i) => (
         <use
           key={i}
