@@ -7,15 +7,18 @@ import {
   phylotaxis,
   radialPointString,
   type Circle,
+  type Point,
 } from "@dopplerreflect/geometry";
 import { oklch } from "chroma-js";
 
 export default function Daisy({ width = 1080, height = 1080 }: Props) {
   const r = (width / 2) * 0.95;
   const radii = [...Array(5).keys()].map(n => r * phi ** n);
-  const angles = [...Array(13).keys()].map(n => (360 - 360 * phi * n) % 360);
+  const angles = [...Array(13).keys()].map(n => ((360 - 360 * phi) * n) % 360);
   const phyllotaxicPoints = phylotaxis(233, radii[3]);
-  const phyllotaxicCircles: Circle[] = [{ r: 1, ...phyllotaxicPoints[0] }];
+  const phyllotaxicCircles: Circle[] = [
+    { r: 0, ...(phyllotaxicPoints.shift() as Point) },
+  ];
 
   phyllotaxicPoints.forEach((p, i) => {
     const nearestCircle = findNearest(p, phyllotaxicCircles) as Circle;
@@ -95,7 +98,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             result='morph'
           />
           <feFlood
-            floodColor={oklch(0.25, 0.17, 60).hex()}
+            floodColor={oklch(0.25, 0.27, 150).hex()}
             result='color'
           />
           <feComposite
@@ -110,14 +113,13 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
       </defs>
       <Background
         {...{ width, height }}
-        fill='green'
+        fill={oklch(0, 0.37, 300).hex()}
       />
-
       {angles.map((a, i) => (
         <use
           key={i}
           href='#petal'
-          stroke='orange'
+          stroke={oklch(0.5, 0.37, 61.85).hex()}
           transform={`rotate(${a})`}
         />
       ))}
@@ -132,9 +134,9 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             cx={c.x}
             cy={c.y}
             fill={oklch(
-              0.66,
-              0.21,
-              150 - (90 / phyllotaxicCircles.length) * i,
+              0.5,
+              0.17,
+              120 - (60 / phyllotaxicCircles.length) * i,
             ).hex()}
             stroke={oklch(
               0.5,
