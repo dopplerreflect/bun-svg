@@ -27,7 +27,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
   });
 
   const bgPhyllotaxicPoints = phylotaxis(
-    4096,
+    1024,
     Math.hypot(width / 2, height / 2),
   );
   const bgPhyllotaxicCircles: Circle[] = [
@@ -41,6 +41,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
   const bgCircles = bgPhyllotaxicCircles.filter(
     p => Math.hypot(p.x, p.y) > radii[1],
   );
+
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -80,11 +81,11 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
         />
         <path
           id='petal-overlay'
-          d={`M${radialPointString(0, radii[4])}A${radii[0]} ${radii[0]} 0 0 0 ${radialPointString(0, radii[0])}A${radii[0]} ${radii[0]} 0 0 0 ${radialPointString(0, radii[4])}L${radialPointString(0, radii[0])}Z`}
-          fill='none'
+          d={`M${radialPointString(0, radii[4])}A${radii[0]} ${radii[0]} 0 0 0 ${radialPointString(0, radii[0])}A${radii[0]} ${radii[0]} 0 0 0 ${radialPointString(0, radii[4])}A${radii[1]} ${radii[1]} 0 0 0 ${radialPointString(0, radii[0])}A${radii[1]} ${radii[1]} 0 0 0 ${radialPointString(0, radii[4])}L${radialPointString(0, radii[0])}Z`}
           stroke={oklch(0.5, 0.27, 60).hex()}
           filter='url(#petal-overlay-filter)'
           mask='url(#petal-overlay-mask)'
+          fill='url(#petal-overlay-fill)'
         />
         <filter id='petal-overlay-filter'>
           <feGaussianBlur stdDeviation={3} />
@@ -99,6 +100,26 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             stopColor='black'
           />
         </radialGradient>
+        <linearGradient
+          id='petal-overlay-fill'
+          gradientTransform='rotate(90)'
+        >
+          <stop
+            offset={0}
+            stopColor='white'
+            stopOpacity={0}
+          />
+          <stop
+            offset={0.5}
+            stopColor='black'
+            stopOpacity={0.5}
+          />
+          <stop
+            offset={1}
+            stopColor='white'
+            stopOpacity={0}
+          />
+        </linearGradient>
         <mask id='petal-overlay-mask'>
           <circle
             r={radii[0]}
@@ -156,11 +177,6 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             strokeWidth={2}
           />
         ))}
-      </g>
-      <g
-        id='bg1'
-        filter='url(#glow)'
-      >
         {bgCircles.map((c, i) => (
           <circle
             key={i}
@@ -176,11 +192,6 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             strokeWidth={2}
           />
         ))}
-      </g>
-      <g
-        id='bg2'
-        filter='url(#glow)'
-      >
         {bgCircles.map((c, i) => (
           <circle
             key={i}
