@@ -27,7 +27,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
   });
 
   const bgPhyllotaxicPoints = phylotaxis(
-    1024,
+    987,
     Math.hypot(width / 2, height / 2),
   );
   const bgPhyllotaxicCircles: Circle[] = [
@@ -36,7 +36,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
   bgPhyllotaxicPoints.forEach((p, i) => {
     const nearestCircle = findNearest(p, bgPhyllotaxicCircles) as Circle;
     const distance = calculateDistance(p, nearestCircle);
-    bgPhyllotaxicCircles.push({ r: distance - nearestCircle.r, ...p });
+    bgPhyllotaxicCircles.push({ r: distance - nearestCircle.r - 2, ...p });
   });
   const bgCircles = bgPhyllotaxicCircles.filter(
     p => Math.hypot(p.x, p.y) > radii[1],
@@ -158,13 +158,12 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
         {...{ width, height }}
         fill={oklch(0, 0.37, 300).hex()}
       />
-      <g
-        id='bg0'
-        filter='url(#glow)'
-      >
-        {bgCircles.map((c, i) => (
+      {bgCircles.map((c, i) => (
+        <g
+          key={i}
+          filter='url(#glow)'
+        >
           <circle
-            key={i}
             r={c.r * phi ** 2}
             cx={c.x}
             cy={c.y}
@@ -176,10 +175,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             ).hex()}
             strokeWidth={2}
           />
-        ))}
-        {bgCircles.map((c, i) => (
           <circle
-            key={i}
             r={c.r * phi}
             cx={c.x}
             cy={c.y}
@@ -191,10 +187,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             ).hex()}
             strokeWidth={2}
           />
-        ))}
-        {bgCircles.map((c, i) => (
           <circle
-            key={i}
             r={c.r}
             cx={c.x}
             cy={c.y}
@@ -206,8 +199,8 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
             ).hex()}
             strokeWidth={2}
           />
-        ))}
-      </g>
+        </g>
+      ))}
       <g
         id='daisy'
         filter='url(#shadow)'
