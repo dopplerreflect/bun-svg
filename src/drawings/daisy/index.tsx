@@ -50,9 +50,32 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
     >
       <defs>
         <filter id='glow'>
-          <feGaussianBlur stdDeviation={5} />
+          <feGaussianBlur stdDeviation={3} />
+          <feColorMatrix
+            values='
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 0 0 0
+              0 0 0 1 0
+            '
+            result='a'
+          />
+          <feGaussianBlur
+            stdDeviation={5}
+            in='SourceGraphic'
+          />
+          <feColorMatrix
+            values='
+              1 0 0 0 0
+              0 0 0 0 0
+              0 0 1 0 0
+              0 0 0 1 0
+            '
+            result='b'
+          />
           <feMerge>
             <feMergeNode />
+            <feMergeNode in='a' />
             <feMergeNode in='SourceGraphic' />
           </feMerge>
         </filter>
@@ -130,18 +153,18 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
           <use href='#petal-base' />
           <use href='#petal-overlay' />
         </g>
-        <filter id='c'>
+        <filter id='carpels-filter'>
           <feMorphology
             in='SourceAlpha'
             operator='dilate'
-            radius={2}
+            radius={1}
           />
           <feGaussianBlur
-            stdDeviation={5}
+            stdDeviation={3}
             result='morph'
           />
           <feFlood
-            floodColor={oklch(0.25, 0.27, 150).hex()}
+            floodColor={oklch(0.25, 0.27, 90).hex()}
             result='color'
           />
           <feComposite
@@ -215,7 +238,7 @@ export default function Daisy({ width = 1080, height = 1080 }: Props) {
         ))}
         <g
           id='carpels'
-          filter='url(#c)'
+          filter='url(#carpels-filter)'
         >
           {phyllotaxicCircles.map((c, i) => (
             <circle
